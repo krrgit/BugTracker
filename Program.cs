@@ -1,5 +1,7 @@
 using BugTracker.Data;
+using BugTracker.Interfaces;
 using BugTracker.Models;
+using BugTracker.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AppDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -18,8 +22,8 @@ var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-    //Seed.SeedUsersAndRolesAsync(app);
-    Seed.SeedData(app);
+    Seed.SeedUsersAndRolesAsync(app);
+    //Seed.SeedData(app);
 }
 
 

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<AppUser>
+<h1>Add Member</h1>
+
+<form method="post" asp-action="CreateTicket" enctype="multipart/form-data">
+
+    <select class="form-select" aria-label="Select a member">
+      <option selected>Open this select menu</option>
+        @foreach(var item in Model)
+        {
+            <option value="@item.Id">@item.FirstName @item.LastName</option>
+        }
+    </select>
+  </div>
+	  <button type="submit" class="btn btn-primary">Add Member</button>
+</form>

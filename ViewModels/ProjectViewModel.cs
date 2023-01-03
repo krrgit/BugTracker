@@ -9,6 +9,8 @@ namespace BugTracker.ViewModels
         public string Description { get; set; }
         public Project Project { get; set; }
         public List<Ticket> Tickets { get; set; }
+        public List<AppUser> Members { get; set; }
+
         public List<AppUser> AppUsers { get; set; }
     }
 }

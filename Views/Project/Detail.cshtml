@@ -20,5 +20,76 @@
 		</a>
 	}
 </div>
-<a asp-controller="Project" asp-action="CreateTicket" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary">Create Ticket</a>
+<a asp-controller="Project" asp-action="CreateTicket" asp-route-id="@Model.Id" class="btn btn-primary">Create Ticket</a>
 <h2>Team</h2>
+<div class="list-group w-auto">
+	@foreach (var item in Model.Members)
+	{
+			<a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+				<img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+				<div class="d-flex gap-2 w-100 justify-content-between">
+					<h6 class="mb-0">@item.FirstName @item.LastName</h6>
+				</div>
+			</a>
+	}
+</div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberModal">
+  Add Member
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 class="modal-title" id="memberModalLabel">Add Member(s)</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	  </div>
+	  <div class="modal-body">
+		  <div class="container">
+			  <input class="form-control" id="listSearch" type="text" placeholder="Search">
+			  <br>
+			  <ul class="list-group" id="myList">
+					@foreach (var item in Model.AppUsers)
+					{
+						@if (!Model.Members.Contains(item))
+						{
+							@if (!Model.Members.Contains(item))
+							{
+								<label class="list-group-item">@item.FirstName @item.LastName
+									@if (!Model.Members.Contains(item))
+									{
+										<input class="form-check-input flex-shrink-0  pull-right" type="checkbox" value="">
+									}
+									else
+									{
+										<input class="form-check-input flex-shrink-0 pull-right" type="checkbox" value="" disabled>
+									}
+								</label>
+							}
+						}
+					}
+			  </ul>
+			</div>
+			<br>
+		<div class="modal-footer">
+		<button type="button" class="btn btn-primary">Add</button>
+	  </div>
+	</div>
+  </div>
+</div>
+
+@section Scripts
+	{
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#listSearch").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+					$("#myList label").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
+}

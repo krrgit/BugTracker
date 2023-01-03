@@ -1,5 +1,7 @@
 ﻿using BugTracker.Data;
+using BugTracker.Interfaces;
 using BugTracker.Models;
+using BugTracker.Repository;
 using BugTracker.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,37 +11,52 @@ namespace BugTracker.Controllers
 {
     public class ProjectController : Controller
     {
-        AppDBContext _context;
+		private readonly AppDBContext _context;
 
-        public ProjectController(AppDBContext context)
+		public ProjectController(AppDBContext context)
         {
             _context = context;
-        }
+		}
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Project> projects = await _context.Projects.ToListAsync();
+            //var projects = _projectRepository.GetAll().Result.ToList();
+            var projects = await _context.Projects.ToListAsync();
             return View(projects);
         }
 
         public async Task<IActionResult> Detail(int id)
         {
+            //Project project = _projectRepository.GetByIdAsync(id).Result;
+            //var tickets = _projectRepository.GetTickets(id).Result.ToList();
+            //var members = _projectRepository.GetMembers(id).Result.ToList();
             Project project = await _context.Projects.FindAsync(id);
             var tickets = await _context.Tickets.Where(t => t.ProjectId == id).ToListAsync();
+            var members = await _context.Users
+                .Include(m => m.MemberProjects)
+                    .ThenInclude(mp => mp.Project)
+                        .Where(m => m.MemberProjects.Any(mp => mp.ProjectId == id)).ToListAsync();
+
+
+            var appUsers = await _context.Users.ToListAsync();
+
 
             ProjectViewModel projectVM = new ProjectViewModel()
             {
                 Id = id,
                 Title = project.Title,
                 Description = project.Description,
-                Tickets = tickets
-            };
+                Tickets = tickets,
+				Members = members,
+                AppUsers = appUsers
+			};
 
             return View(projectVM);
         }
 
         public async Task<IActionResult> CreateTicket(int id)
 		{
+            //var project = _projectRepository.GetByIdAsync(id).Result;
             var project = await _context.Projects.FindAsync(id);
 			var ticketVM = new CreateTicketViewModel()
             {
@@ -68,11 +85,14 @@ namespace BugTracker.Controllers
                 };
                 _context.Add(ticket);
                 _context.SaveChanges();
+                //_projectRepository.AddTicket(ticket);
                 return RedirectToAction("Detail", new { id = ticketVM.Id });
             }
 
             ModelState.AddModelError("", "Error");
             return View(ticketVM);
         }
+
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using BugTracker.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace BugTracker.Data
 {
@@ -77,5 +79,102 @@ namespace BugTracker.Data
                 }
             }
         }
-    }
+
+		public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+		{
+			using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+			{
+				//Roles
+				var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+				if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+				if(!await roleManager.RoleExistsAsync(UserRoles.ProjectManager))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.ProjectManager));
+				if (!await roleManager.RoleExistsAsync(UserRoles.Developer))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.Developer));
+				if (!await roleManager.RoleExistsAsync(UserRoles.Submitter))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.Submitter));
+
+				//Users
+				var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+				string adminUserEmail = "kevindev@gmail.com";
+
+				var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+				if (adminUser == null)
+				{
+					var newAdminUser = new AppUser()
+					{
+						UserName = "kevindev",
+						FirstName = "Kevin",
+                        LastName = "Dev",
+                        Email = adminUserEmail,
+						EmailConfirmed = true,
+					};
+					await userManager.CreateAsync(newAdminUser, "Coding@1234?");
+					await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+				}
+
+                // Submitter
+                {
+                    string appUserEmail = "submitter@etickets.com";
+
+                    var appUser = await userManager.FindByEmailAsync(appUserEmail);
+                    if (appUser == null)
+                    {
+                        var newAppUser = new AppUser()
+                        {
+							UserName = "submitter",
+							FirstName = "John",
+                            LastName = "Doe",
+                            Email = appUserEmail,
+                            EmailConfirmed = true,
+                        };
+                        await userManager.CreateAsync(newAppUser, "Coding@1234?");
+                        await userManager.AddToRoleAsync(newAppUser, UserRoles.Submitter);
+                    }
+                }
+
+                // Developer
+				{
+					string appUserEmail = "developer@etickets.com";
+
+					var appUser = await userManager.FindByEmailAsync(appUserEmail);
+					if (appUser == null)
+					{
+						var newAppUser = new AppUser()
+						{
+							UserName = "developer",
+							FirstName = "John",
+							LastName = "Appleseed",
+							Email = appUserEmail,
+							EmailConfirmed = true,
+						};
+						await userManager.CreateAsync(newAppUser, "Coding@1234?");
+						await userManager.AddToRoleAsync(newAppUser, UserRoles.Developer);
+					}
+				}
+
+				// ProjectManager
+				{
+					string appUserEmail = "projectmanager@etickets.com";
+
+					var appUser = await userManager.FindByEmailAsync(appUserEmail);
+					if (appUser == null)
+					{
+						var newAppUser = new AppUser()
+						{
+							UserName = "projectmanager",
+							FirstName = "Joe",
+							LastName = "Smith",
+							Email = appUserEmail,
+							EmailConfirmed = true,
+						};
+						await userManager.CreateAsync(newAppUser, "Coding@1234?");
+						await userManager.AddToRoleAsync(newAppUser, UserRoles.ProjectManager);
+					}
+				}
+			}
+		}
+	}
 }
