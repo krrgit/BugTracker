@@ -1,35 +1,40 @@
 ﻿@using BugTracker.Data.Enum
 @using BugTracker.ViewModels
 @model EditTicketViewModel
-<h1>@Model.ProjectTitle Edit Ticket</h1>
-<small>@Model.CreatedAt</small>
+<div class="row d-flex justify-content-center">
+<div class="col-md-8">
+<h2>@Model.ProjectTitle Edit Ticket</h2>
 
 <form method="post" asp-action="Edit" enctype="multipart/form-data">
   <input type="hidden" asp-for="@Model.Id" />
   <input type="hidden" asp-for="@Model.ProjectId" />
-  <div class="form-group">
+  <div class="form-group mb-1">
     <label asp-for="Title">Title</label>
-    <input asp-for="Title" class="form-control" placeholder="@Model.Title">
+    <input asp-for="Title" class="form-control" placeholder="Title">
     <span asp-validation-for="Title" class="text-danger"></span>  
   </div>
-  <div class="form-group">
+  <div class="form-group mb-1">
     <label asp-for="Description">Description</label>
     <textarea asp-for="Description" class="form-control" placeholder="Description" rows="3"></textarea>
     <span asp-validation-for="Description" class="text-danger"></span>  
   </div>
-  <div class="form-group">
+  <div class="row mb-2">
+  <div class="form-group col-md-6">
     <label asp-for="Priority">Priority</label>
-    <select asp-for="Priority" asp-items="@Html.GetEnumSelectList<TicketPriority>()" class="form-control form-control" value="@Model.Priority">
-        <option>Select</option>
+    <select asp-for="Priority" asp-items="@Html.GetEnumSelectList<TicketPriority>()" class="form-control">
+        <option>Choose...</option>
     </select>
     <span asp-validation-for="Priority" class="text-danger"></span>  
   </div>
- <div class="form-group">
+ <div class="form-group col-md-6">
     <label asp-for="Type">Type</label>
-    <select asp-for="Type" asp-items="@Html.GetEnumSelectList<TicketType>()" class="form-control form-control" value="@Model.Priority">
-        <option>Select</option>
+    <select asp-for="Type" asp-items="@Html.GetEnumSelectList<TicketType>()" class="form-control">
+        <option>Choose...</option>
     </select>
     <span asp-validation-for="Type" class="text-danger"></span>  
   </div>
-  <button type="submit" class="btn btn-primary">Save Changes</button>
+  </div>
+  <button type="submit" class="btn btn-primary gap-2">Save Changes</button>
 </form>
+</div>
+</div>
