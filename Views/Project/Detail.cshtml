@@ -10,7 +10,17 @@
 <!-- Tickets -->
  <div class="col-9">
  <h3>Tickets</h3>
+
 <div class="list-group w-auto mb-2">
+	<!--Header-->
+	<a class="list-group-item disabled">
+					<div class="d-flex gap-2 w-100 justify-content-between">
+						<div>
+							<h6 class="mb-0">options</h6>
+						</div>
+					</div>
+				</a>
+	<!--Tickets-->
 	@foreach (var item in Model.Tickets)
 	{
 				<a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
@@ -29,15 +39,18 @@
 						</div>
 						<div>
 							<small class="opacity-50 text-nowrap">@item.UpdatedAt</small>
-							<form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
-								<input type="hidden" name="id" value="@item.Id" />
-								<button type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0">Edit</button>
-							</form>
-								<form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
-									<input type="hidden" name="id[0]" value="@item.Id" />
-										<input type="hidden" name="id[1]" value="@Model.Id" />
-										<button type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0">Delete</button>
-								</form>
+								<div class="btn-group" role="group" aria-label="Basic example">
+										<form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+										<input type="hidden" name="id" value="@item.Id" />
+										<input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+										</form>
+										<form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
+											<input type="hidden" name="id[0]" value="@item.Id" />
+											<input type="hidden" name="id[1]" value="@Model.Id" />
+											<input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
+										</form>
+
+								</div>
 						</div>
 					</div>
 				</a>
