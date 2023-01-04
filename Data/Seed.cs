@@ -96,13 +96,13 @@ namespace BugTracker.Data
 					await roleManager.CreateAsync(new IdentityRole(UserRoles.Submitter));
 
 				//Users
-				var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+				var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<Member>>();
 				string adminUserEmail = "kevindev@gmail.com";
 
 				var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
 				if (adminUser == null)
 				{
-					var newAdminUser = new AppUser()
+					var newAdminUser = new Member()
 					{
 						UserName = "kevindev",
 						FirstName = "Kevin",
@@ -121,7 +121,7 @@ namespace BugTracker.Data
 					var appUser = await userManager.FindByEmailAsync(appUserEmail);
 					if (appUser == null)
 					{
-						var newAppUser = new AppUser()
+						var newAppUser = new Member()
 						{
 							UserName = "submitter",
 							FirstName = "John",
@@ -141,7 +141,7 @@ namespace BugTracker.Data
 					var appUser = await userManager.FindByEmailAsync(appUserEmail);
 					if (appUser == null)
 					{
-						var newAppUser = new AppUser()
+						var newAppUser = new Member()
 						{
 							UserName = "developer",
 							FirstName = "John",
@@ -161,7 +161,7 @@ namespace BugTracker.Data
 					var appUser = await userManager.FindByEmailAsync(appUserEmail);
 					if (appUser == null)
 					{
-						var newAppUser = new AppUser()
+						var newAppUser = new Member()
 						{
 							UserName = "projectmanager",
 							FirstName = "Joe",

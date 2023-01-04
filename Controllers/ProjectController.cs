@@ -62,8 +62,8 @@ namespace BugTracker.Controllers
 				{
 					if (item.IsSelected)
 					{
-						AppUser user = await _context.AppUsers.FindAsync(item.Id);
-						var appUserProject = new AppUserProject()
+						Member user = await _context.AppUsers.FindAsync(item.Id);
+						var appUserProject = new ProjectMember()
 						{
 							AppUserId = user.Id,
 							AppUser = user,

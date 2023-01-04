@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddIdentity<AppUser, IdentityRole>()
+builder.Services.AddIdentity<Member, IdentityRole>()
 	.AddEntityFrameworkStores<AppDBContext>();
 
 var app = builder.Build();

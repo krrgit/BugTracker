@@ -2,15 +2,15 @@
 
 @model ProjectViewModel
 
-<h1>@Model.Title</h1>
-<h3>@Model.Description</h3>
+<h2>@Model.Title</h2>
+<h6>@Model.Description</h6>
 <hr/> 
 
 <div class="row">
 <!-- Tickets -->
  <div class="col-9">
- <h2>Tickets</h2>
-<div class="list-group w-auto">
+ <h3>Tickets</h3>
+<div class="list-group w-auto mb-2">
 	@foreach (var item in Model.Tickets)
 	{
 				<a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
@@ -30,8 +30,8 @@
 						<div>
 							<small class="opacity-50 text-nowrap">@item.UpdatedAt</small>
 							<form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
-							<input type="hidden" name="id" value="@item.Id" />
-									<button type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0">Edit</button>
+								<input type="hidden" name="id" value="@item.Id" />
+								<button type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0">Edit</button>
 							</form>
 								<form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
 									<input type="hidden" name="id[0]" value="@item.Id" />
@@ -43,32 +43,44 @@
 				</a>
 	}
 </div>
-<a asp-controller="Ticket" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-primary">Create Ticket</a>
+<a asp-controller="Ticket" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-primary">Add New Ticket</a>
 </div>
 
 <!-- Team -->
 <div class="col-3">
-<h2>Team</h2>
-<ul class="list-group list-group-flush">
+<h3>Team</h3>
+<ul class="list-group list-group-flush mb-2">
 	@foreach (var item in Model.Members)
 	{
 			<li class="list-group-item d-flex gap-2 w-100 justify-content-between">
 			@item.FirstName @item.LastName
 			<div>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<small class="opacity-50 text-nowrap">Role</small>
+					<form method="post" action="@Url.Action("Remove", "ProjectMember")" class="form-check-inline p-0 mx-0">
+							<input type="hidden" name="appUserId" value="@item.Id" />
+								<input type="hidden" name="projectId" value="@Model.Id" />
+							<button type="submit" class="btn btn-close btn-sm" class="form-check-inline p-0 mx-0"></button>
+					</form>
 			</div>
 					
 		</li>
 	}
 </ul>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberModal">
-  Add Member
-</button>
+<div class="btn-group btn-group-toggle d-flex gap-2 w-100 justify-content-between" data-toggle="buttons">
+	<div>
+		<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#memberModal"><b>+</b> Member</button>
+	</div>
+	<div>
+	<form method="get" action="@Url.Action("Manage", "ProjectMember")" class="form-check-inline p-0 mx-0">
+		<button type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0">Manage</button>
+	</form>
+	</div>
+</div>
 </div>
 </div>
 
-<!-- Modal -->
+<!-- Add Member Modal -->
 <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
   <div class="modal-dialog">
 	<div class="modal-content">
@@ -76,7 +88,8 @@
 		<h5 class="modal-title" id="memberModalLabel">Add Member(s)</h5>
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	  </div>
-	  <form method="post" asp-action="Detail" enctype="multipart/form-data">
+	  <form method="post" action="@Url.Action("Add", "ProjectMember")" enctype="multipart/form-data">
+		  <input type="hidden" asp-for="@Model.Id"/>
 		<div class="modal-body">
 		<div class="container">
 			<input class="form-control" id="listSearch" type="text" placeholder="Search">
@@ -97,7 +110,7 @@
 		<br>
 	</div>
 	<div class="modal-footer">
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" class="btn btn-primary">Add</button>
 	</div>
 	</form>
 	</div>

@@ -4,13 +4,13 @@ namespace BugTracker.Interfaces
 {
 	public interface IUserRepository
 	{
-		Task<IEnumerable<AppUser>> GetAllUsers();
-		Task<IEnumerable<AppUser>> GetProjectMembers(int projectId);
-		Task<AppUser> GetUserById(string id);
+		Task<IEnumerable<Member>> GetAllUsers();
+		Task<IEnumerable<Member>> GetProjectMembers(int projectId);
+		Task<Member> GetUserById(string id);
 
-		bool Add(AppUser user);
-		bool Update(AppUser user);
-		bool Delete(AppUser user);
+		bool Add(Member user);
+		bool Update(Member user);
+		bool Delete(Member user);
 		bool Save();
 	}
 }

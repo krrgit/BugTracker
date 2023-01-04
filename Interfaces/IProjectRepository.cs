@@ -8,7 +8,7 @@ namespace BugTracker.Interfaces
 		public Task<IEnumerable<Project>> GetAll();
 		public Task<Project> GetByIdAsync(int id);
 		public Task<IEnumerable<Project>> GetUserProjects(int id);
-		public Task<IEnumerable<AppUser>> GetMembers(int id);
+		public Task<IEnumerable<Member>> GetMembers(int id);
 		public Task<IEnumerable<Ticket>> GetTickets(int id);
 
 		bool Add(Project project);
@@ -18,6 +18,6 @@ namespace BugTracker.Interfaces
 
 		bool AddTicket(Ticket ticket);
 
-		bool AddAppUserToProject(AppUser appUser);
+		bool AddAppUserToProject(Member appUser);
 	}
 }

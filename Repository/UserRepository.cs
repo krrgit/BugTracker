@@ -13,17 +13,17 @@ namespace BugTracker.Repository
 		{
 			_context = context;
 		}
-		public async Task<IEnumerable<AppUser>> GetAllUsers()
+		public async Task<IEnumerable<Member>> GetAllUsers()
 		{
 			return await _context.Users.ToListAsync();
 		}
 
-		public async Task<AppUser> GetUserById(string id)
+		public async Task<Member> GetUserById(string id)
 		{
 			return await _context.Users.FindAsync(id);
 		}
 
-		public async Task<IEnumerable<AppUser>> GetProjectMembers(int projectId)
+		public async Task<IEnumerable<Member>> GetProjectMembers(int projectId)
 		{
 			var members = _context.Users
 				.Include(m => m.MemberProjects)
@@ -35,12 +35,12 @@ namespace BugTracker.Repository
 			return memberList;
 		}
 
-		public bool Add(AppUser user)
+		public bool Add(Member user)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool Delete(AppUser user)
+		public bool Delete(Member user)
 		{
 			throw new NotImplementedException();
 		}
@@ -50,7 +50,7 @@ namespace BugTracker.Repository
 			throw new NotImplementedException();
 		}
 
-		public bool Update(AppUser user)
+		public bool Update(Member user)
 		{
 			throw new NotImplementedException();
 		}

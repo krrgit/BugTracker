@@ -24,7 +24,7 @@ namespace BugTracker.Repository
 			return await _context.Projects.FindAsync(id);
 		}
 
-		public async Task<IEnumerable<AppUser>> GetMembers(int id)
+		public async Task<IEnumerable<Member>> GetMembers(int id)
 		{
 			var members = _context.Users
 				.Include(m => m.MemberProjects)
@@ -72,9 +72,9 @@ namespace BugTracker.Repository
 			return _context.SaveChanges() > 0;
 		}
 
-		bool AddAppUserToProject(AppUser appUser, Project project)
+		bool AddAppUserToProject(Member appUser, Project project)
 		{
-			var appUserProject = new AppUserProject()
+			var appUserProject = new ProjectMember()
 			{
 				AppUserId = appUser.Id,
 				AppUser = appUser,
@@ -86,7 +86,7 @@ namespace BugTracker.Repository
 			return _context.SaveChanges() > 0;
 		}
 
-		public bool AddAppUserToProject(AppUser appUser)
+		public bool AddAppUserToProject(Member appUser)
 		{
 			throw new NotImplementedException();
 		}
