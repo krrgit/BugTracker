@@ -8,6 +8,7 @@ namespace BugTracker.Models
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public ICollection<AppUserProject> MemberProjects { get; set; }
+        public ICollection<AppUserProject>? MemberProjects { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

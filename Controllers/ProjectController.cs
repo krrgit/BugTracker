@@ -30,16 +30,18 @@ namespace BugTracker.Controllers
             //Project project = _projectRepository.GetByIdAsync(id).Result;
             //var tickets = _projectRepository.GetTickets(id).Result.ToList();
             //var members = _projectRepository.GetMembers(id).Result.ToList();
-            Project project = await _context.Projects.FindAsync(id);
+            Project project = await _context.Projects.FirstOrDefaultAsync(i => i.Id == id);
+
+            Console.WriteLine("Project ID:" + id);
+
             var tickets = await _context.Tickets.Where(t => t.ProjectId == id).ToListAsync();
-            var members = await _context.Users
+            var members = await _context.AppUsers
                 .Include(m => m.MemberProjects)
                     .ThenInclude(mp => mp.Project)
                         .Where(m => m.MemberProjects.Any(mp => mp.ProjectId == id)).ToListAsync();
 
 
-            var appUsers = await _context.Users.ToListAsync();
-
+            var appUsers = await _context.AppUsers.Where(a => !members.Contains(a)).ToListAsync();
 
             ProjectViewModel projectVM = new ProjectViewModel()
             {
@@ -47,7 +49,7 @@ namespace BugTracker.Controllers
                 Title = project.Title,
                 Description = project.Description,
                 Tickets = tickets,
-				Members = members,
+                Members = members,
                 AppUsers = appUsers
 			};
 
@@ -94,5 +96,38 @@ namespace BugTracker.Controllers
         }
 
 
-    }
+		[HttpPost]
+        public async Task<IActionResult> Detail(ProjectViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+				var project = await _context.Projects.FindAsync(model.Id);
+				foreach (var item in model.AppUsers)
+                {
+                    if (item.IsSelected)
+                    {
+                        AppUser user = await _context.AppUsers.FindAsync(item.Id);
+						var appUserProject = new AppUserProject()
+						{
+							AppUserId = user.Id,
+							AppUser = user,
+							ProjectId = model.Id,
+							Project = project
+						};
+
+						_context.Add(appUserProject);
+                        _context.SaveChanges();
+					}
+                }
+                return RedirectToAction("Detail", new { id = model.Id });
+            }
+
+			ModelState.AddModelError("", "Error");
+			return RedirectToAction("Index"); 
+            //return RedirectToAction("Detail", new { id = projectVM.Id });
+		}
+
+
+	}
 }
