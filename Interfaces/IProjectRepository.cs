@@ -1,5 +1,4 @@
 ﻿using BugTracker.Models;
-using System.Diagnostics;
 
 namespace BugTracker.Interfaces
 {

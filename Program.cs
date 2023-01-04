@@ -13,26 +13,26 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AppDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDBContext>();
+	.AddEntityFrameworkStores<AppDBContext>();
 
 var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-    Seed.SeedUsersAndRolesAsync(app);
-    //Seed.SeedData(app);
+	Seed.SeedUsersAndRolesAsync(app);
+	//Seed.SeedData(app);
 }
 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -43,7 +43,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

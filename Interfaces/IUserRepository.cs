@@ -7,7 +7,7 @@ namespace BugTracker.Interfaces
 		Task<IEnumerable<AppUser>> GetAllUsers();
 		Task<IEnumerable<AppUser>> GetProjectMembers(int projectId);
 		Task<AppUser> GetUserById(string id);
-		
+
 		bool Add(AppUser user);
 		bool Update(AppUser user);
 		bool Delete(AppUser user);

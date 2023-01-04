@@ -9,7 +9,8 @@ namespace BugTracker.Repository
 	{
 		private readonly AppDBContext _context;
 
-		public UserRepository(AppDBContext context) {
+		public UserRepository(AppDBContext context)
+		{
 			_context = context;
 		}
 		public async Task<IEnumerable<AppUser>> GetAllUsers()
@@ -30,7 +31,7 @@ namespace BugTracker.Repository
 						.Where(m => m.MemberProjects.Any(mp => mp.ProjectId == projectId));
 
 			var memberList = await members.ToListAsync();
-			
+
 			return memberList;
 		}
 

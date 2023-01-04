@@ -14,7 +14,8 @@ namespace BugTracker.Repository
 			return await _context.Projects.ToListAsync();
 		}
 
-		public ProjectRepository(AppDBContext context) {
+		public ProjectRepository(AppDBContext context)
+		{
 			_context = context;
 		}
 
@@ -71,8 +72,10 @@ namespace BugTracker.Repository
 			return _context.SaveChanges() > 0;
 		}
 
-		bool AddAppUserToProject(AppUser appUser, Project project) {
-			var appUserProject = new AppUserProject() {
+		bool AddAppUserToProject(AppUser appUser, Project project)
+		{
+			var appUserProject = new AppUserProject()
+			{
 				AppUserId = appUser.Id,
 				AppUser = appUser,
 				ProjectId = project.Id,

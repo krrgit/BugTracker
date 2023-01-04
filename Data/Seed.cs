@@ -1,42 +1,41 @@
 ﻿using BugTracker.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Net;
 
 namespace BugTracker.Data
 {
-    public class Seed
-    {
-        public static void SeedData(IApplicationBuilder applicationBuilder)
-        {
-            using (var serviceScpe = applicationBuilder.ApplicationServices.CreateScope()) 
-            {
-                var context = serviceScpe.ServiceProvider.GetService<AppDBContext>();
+	public class Seed
+	{
+		public static void SeedData(IApplicationBuilder applicationBuilder)
+		{
+			using (var serviceScpe = applicationBuilder.ApplicationServices.CreateScope())
+			{
+				var context = serviceScpe.ServiceProvider.GetService<AppDBContext>();
 
-                context.Database.EnsureCreated();
+				context.Database.EnsureCreated();
 
-                if (!context.Projects.Any())
-                {
-                    // Projects
-                    context.Projects.AddRange(new List<Project>()
-                    {
-                        new Project()
-                        {
-                            Title = "Project 1",
-                            Description = "This is the description of the first project",
-                        },
-                        new Project()
-                        {
-                            Title = "Project 2",
-                            Description = "This is the description of the second project",
-                        },new Project()
-                        {
-                            Title = "Project 3",
-                            Description = "This is the description of the third project",
-                        }
-                    });
-                    context.SaveChanges();
-                    // Tickets
-                    /*if (!context.Tickets.Any())
+				if (!context.Projects.Any())
+				{
+					// Projects
+					context.Projects.AddRange(new List<Project>()
+					{
+						new Project()
+						{
+							Title = "Project 1",
+							Description = "This is the description of the first project",
+						},
+						new Project()
+						{
+							Title = "Project 2",
+							Description = "This is the description of the second project",
+						},new Project()
+						{
+							Title = "Project 3",
+							Description = "This is the description of the third project",
+						}
+					});
+					context.SaveChanges();
+					// Tickets
+					/*if (!context.Tickets.Any())
                     {
                         context.Tickets.AddRange(new List<Ticket>()
                         { 
@@ -76,9 +75,9 @@ namespace BugTracker.Data
                         });
                         context.SaveChanges();
                     }*/
-                }
-            }
-        }
+				}
+			}
+		}
 
 		public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
 		{
@@ -89,7 +88,7 @@ namespace BugTracker.Data
 
 				if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
 					await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-				if(!await roleManager.RoleExistsAsync(UserRoles.ProjectManager))
+				if (!await roleManager.RoleExistsAsync(UserRoles.ProjectManager))
 					await roleManager.CreateAsync(new IdentityRole(UserRoles.ProjectManager));
 				if (!await roleManager.RoleExistsAsync(UserRoles.Developer))
 					await roleManager.CreateAsync(new IdentityRole(UserRoles.Developer));
@@ -107,35 +106,35 @@ namespace BugTracker.Data
 					{
 						UserName = "kevindev",
 						FirstName = "Kevin",
-                        LastName = "Dev",
-                        Email = adminUserEmail,
+						LastName = "Dev",
+						Email = adminUserEmail,
 						EmailConfirmed = true,
 					};
 					await userManager.CreateAsync(newAdminUser, "Coding@1234?");
 					await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
 				}
 
-                // Submitter
-                {
-                    string appUserEmail = "submitter@etickets.com";
+				// Submitter
+				{
+					string appUserEmail = "submitter@etickets.com";
 
-                    var appUser = await userManager.FindByEmailAsync(appUserEmail);
-                    if (appUser == null)
-                    {
-                        var newAppUser = new AppUser()
-                        {
+					var appUser = await userManager.FindByEmailAsync(appUserEmail);
+					if (appUser == null)
+					{
+						var newAppUser = new AppUser()
+						{
 							UserName = "submitter",
 							FirstName = "John",
-                            LastName = "Doe",
-                            Email = appUserEmail,
-                            EmailConfirmed = true,
-                        };
-                        await userManager.CreateAsync(newAppUser, "Coding@1234?");
-                        await userManager.AddToRoleAsync(newAppUser, UserRoles.Submitter);
-                    }
-                }
+							LastName = "Doe",
+							Email = appUserEmail,
+							EmailConfirmed = true,
+						};
+						await userManager.CreateAsync(newAppUser, "Coding@1234?");
+						await userManager.AddToRoleAsync(newAppUser, UserRoles.Submitter);
+					}
+				}
 
-                // Developer
+				// Developer
 				{
 					string appUserEmail = "developer@etickets.com";
 
