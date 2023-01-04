@@ -29,14 +29,21 @@
 						</div>
 						<div>
 							<small class="opacity-50 text-nowrap">@item.UpdatedAt</small>
-							<button type="button" class="btn btn-secondary btn-sm">Edit</button>
-							<button type="button" class="btn btn-danger btn-sm">Delete</button>
+							<form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+							<input type="hidden" name="id" value="@item.Id" />
+									<button type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0">Edit</button>
+							</form>
+								<form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
+									<input type="hidden" name="id[0]" value="@item.Id" />
+										<input type="hidden" name="id[1]" value="@Model.Id" />
+										<button type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0">Delete</button>
+								</form>
 						</div>
 					</div>
 				</a>
 	}
 </div>
-<a asp-controller="Project" asp-action="CreateTicket" asp-route-id="@Model.Id" class="btn btn-primary">Create Ticket</a>
+<a asp-controller="Ticket" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-primary">Create Ticket</a>
 </div>
 
 <!-- Team -->

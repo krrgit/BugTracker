@@ -1,12 +1,15 @@
 ﻿@using BugTracker.Data.Enum
 @using BugTracker.ViewModels
-@model CreateTicketViewModel
-<h1>@Model.ProjectTitle New Ticket</h1>
+@model EditTicketViewModel
+<h1>@Model.ProjectTitle Edit Ticket</h1>
+<small>@Model.CreatedAt</small>
 
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+  <input type="hidden" asp-for="@Model.Id" />
+  <input type="hidden" asp-for="@Model.ProjectId" />
   <div class="form-group">
     <label asp-for="Title">Title</label>
-    <input asp-for="Title" class="form-control" placeholder="Title">
+    <input asp-for="Title" class="form-control" placeholder="@Model.Title">
     <span asp-validation-for="Title" class="text-danger"></span>  
   </div>
   <div class="form-group">
@@ -16,17 +19,17 @@
   </div>
   <div class="form-group">
     <label asp-for="Priority">Priority</label>
-    <select asp-for="Priority" asp-items="@Html.GetEnumSelectList<TicketPriority>()" class="form-control form-control">
+    <select asp-for="Priority" asp-items="@Html.GetEnumSelectList<TicketPriority>()" class="form-control form-control" value="@Model.Priority">
         <option>Select</option>
     </select>
     <span asp-validation-for="Priority" class="text-danger"></span>  
   </div>
  <div class="form-group">
     <label asp-for="Type">Type</label>
-    <select asp-for="Type" asp-items="@Html.GetEnumSelectList<TicketType>()" class="form-control form-control">
+    <select asp-for="Type" asp-items="@Html.GetEnumSelectList<TicketType>()" class="form-control form-control" value="@Model.Priority">
         <option>Select</option>
     </select>
     <span asp-validation-for="Type" class="text-danger"></span>  
   </div>
-  <button type="submit" class="btn btn-primary">Create Ticket</button>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>

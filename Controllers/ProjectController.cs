@@ -24,9 +24,6 @@ namespace BugTracker.Controllers
 
 		public async Task<IActionResult> Detail(int id)
 		{
-			//Project project = _projectRepository.GetByIdAsync(id).Result;
-			//var tickets = _projectRepository.GetTickets(id).Result.ToList();
-			//var members = _projectRepository.GetMembers(id).Result.ToList();
 			Project project = await _context.Projects.FirstOrDefaultAsync(i => i.Id == id);
 
 			Console.WriteLine("Project ID:" + id);
@@ -51,45 +48,6 @@ namespace BugTracker.Controllers
 			};
 
 			return View(projectVM);
-		}
-
-		public async Task<IActionResult> CreateTicket(int id)
-		{
-			//var project = _projectRepository.GetByIdAsync(id).Result;
-			var project = await _context.Projects.FindAsync(id);
-			var ticketVM = new CreateTicketViewModel()
-			{
-				ProjectId = id,
-				ProjectTitle = project.Title
-			};
-
-			return View(ticketVM);
-		}
-
-		[HttpPost]
-		public IActionResult CreateTicket(CreateTicketViewModel ticketVM)
-		{
-			if (ModelState.IsValid)
-			{
-				var ticket = new Ticket
-				{
-					Title = ticketVM.Title,
-					Description = ticketVM.Description,
-					Priority = ticketVM.Priority,
-					Status = Data.Enum.TicketStatus.New,
-					Type = ticketVM.Type,
-					ProjectId = ticketVM.Id,
-					CreatedAt = DateTime.Now,
-					UpdatedAt = DateTime.Now
-				};
-				_context.Add(ticket);
-				_context.SaveChanges();
-				//_projectRepository.AddTicket(ticket);
-				return RedirectToAction("Detail", new { id = ticketVM.Id });
-			}
-
-			ModelState.AddModelError("", "Error");
-			return View(ticketVM);
 		}
 
 
@@ -122,7 +80,6 @@ namespace BugTracker.Controllers
 
 			ModelState.AddModelError("", "Error");
 			return RedirectToAction("Index");
-			//return RedirectToAction("Detail", new { id = projectVM.Id });
 		}
 
 
