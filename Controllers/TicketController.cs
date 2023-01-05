@@ -122,5 +122,13 @@ namespace BugTracker.Controllers
 
 			return RedirectToAction("Detail", "Project", new { id = id[1] });
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> Detail(int id)
+		{
+			var ticket = await _context.Tickets.FindAsync(id);
+
+			return View(ticket);
+		}
 	}
 }

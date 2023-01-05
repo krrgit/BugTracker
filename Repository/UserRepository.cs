@@ -22,7 +22,8 @@ namespace BugTracker.Repository
 		{
 			return await _context.Users.FindAsync(id);
 		}
-
+		
+		// Return members of a given project
 		public async Task<IEnumerable<Member>> GetProjectMembers(int projectId)
 		{
 			var members = _context.Users
@@ -34,6 +35,18 @@ namespace BugTracker.Repository
 
 			return memberList;
 		}
+
+		public async Task<IEnumerable<Project>> GetUserProjects(string memberId)
+		{
+			var projects = _context.Projects
+				.Include(m => m.ProjectMembers)
+					.ThenInclude(mp => mp.Project)
+						.Where(m => m.ProjectMembers.Any(mp => mp.AppUserId == memberId));
+
+			var list = await projects.ToListAsync();
+
+            return list;
+        }
 
 		public bool Add(Member user)
 		{
