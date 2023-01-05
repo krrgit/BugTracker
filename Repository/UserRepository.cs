@@ -1,6 +1,7 @@
 ﻿using BugTracker.Data;
 using BugTracker.Interfaces;
 using BugTracker.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Repository
@@ -48,7 +49,13 @@ namespace BugTracker.Repository
             return list;
         }
 
-		public bool Add(Member user)
+        public string GetUserRole(string memberId)
+		{
+			return _context.Roles.FindAsync(memberId).Result.Name;
+
+		}
+
+        public bool Add(Member user)
 		{
 			throw new NotImplementedException();
 		}

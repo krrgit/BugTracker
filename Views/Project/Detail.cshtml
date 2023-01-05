@@ -69,7 +69,7 @@
 			<li class="list-group-item d-flex gap-2 w-100 justify-content-between">
 			@item.FirstName @item.LastName
 			<div>
-				<small class="opacity-50 text-nowrap">Role</small>
+				<small class="opacity-50 text-nowrap">@item.Role</small>
 					<form method="post" action="@Url.Action("Remove", "ProjectMember")" class="form-check-inline p-0 mx-0">
 							<input type="hidden" name="appUserId" value="@item.Id" />
 								<input type="hidden" name="projectId" value="@Model.Id" />

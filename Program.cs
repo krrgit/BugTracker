@@ -2,6 +2,7 @@ using BugTracker.Data;
 using BugTracker.Interfaces;
 using BugTracker.Models;
 using BugTracker.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,12 +18,16 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 });
 builder.Services.AddIdentity<Member, IdentityRole>()
 	.AddEntityFrameworkStores<AppDBContext>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
 
 var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-	Seed.SeedUsersAndRolesAsync(app);
+	//Seed.SeedUsersAndRolesAsync(app);
 	//Seed.SeedData(app);
 }
 
@@ -39,7 +44,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

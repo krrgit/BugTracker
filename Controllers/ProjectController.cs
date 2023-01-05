@@ -1,8 +1,12 @@
 ﻿using BugTracker.Data;
+using BugTracker.Migrations;
 using BugTracker.Models;
 using BugTracker.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
+
 
 namespace BugTracker.Controllers
 {
@@ -43,11 +47,39 @@ namespace BugTracker.Controllers
 				Title = project.Title,
 				Description = project.Description,
 				Tickets = tickets,
-				Members = members,
+				Members = await TeamToViewModel(members),
 				AppUsers = appUsers
 			};
 
 			return View(projectVM);
+		}
+
+		private async Task<List<TeamMemberViewModel>> TeamToViewModel(List<Member> members)
+		{
+			var teamMemberVMs = new List<TeamMemberViewModel>();
+
+			foreach (var m in members)
+			{
+				string role = "submitter";
+				try
+				{
+					var roleId = (await _context.UserRoles.FirstOrDefaultAsync(r => r.UserId == m.Id)).RoleId;
+                    role = (await _context.Roles.FirstOrDefaultAsync(r => r.Id == roleId)).Name;
+                } 
+				catch(Exception ex)
+				{
+					role = "submitter";
+                }
+				var memberVM = new TeamMemberViewModel()
+				{
+					Id = m.Id,
+					FirstName = m.FirstName,
+					LastName = m.LastName,
+					Role = role
+                };
+				teamMemberVMs.Add(memberVM);
+			}
+			return teamMemberVMs;
 		}
 
 
