@@ -17,11 +17,10 @@
 
         <aside class="d-flex flex-column bg-light">
             <!-- Logo -->
-            <div class="d-flex flex-column m-2 p-0 border-bottom text-center">
+            <div class="d-flex flex-column m-2 pb-2 border-bottom text-center">
                 <div class="nav-item" role="button">
-                    <a asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="50" height="50" class="rounded-circle flex-shrink-0"></a>
+                    <a ><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
                 </div>
-                <small class="mb-2">bugtracker</small>
             </div>
             <!-- Dashboard -->
             <div class="d-flex flex-column m-1 p-0 border-bottom text-center">
@@ -40,7 +39,7 @@
                         @foreach (var item in projectList)
                         {
                             <div class="nav-item m-2 mb-0" role="button" data-toggle="tooltip" data-placement="right" title="@item.Title">
-                             <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
+                             <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="50" height="50" class="rounded-circle m-0 p-0 flex-shrink-0"></a>
                             </div>
                         }
 
@@ -49,39 +48,46 @@
             </div>
         </aside>
         <aside class="container-fluid p-0">
+            <!-- Header -->
             <header>
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
                     <div class="container-fluid">
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                            <ul class="navbar-nav flex-grow-1 justify-content-end">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <ul class="navbar-nav flex-grow-1 justify-content-start align-items-center">
+                                <li class="nav-item m-0 p-0">
+                                    <a class="nav-link text-dark m-0 p-0" asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="30" height="30" class="rounded-circle flex-shrink-0"></a>
                                 </li>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                    </li>
+                                    }
+                            </ul>
+                            <ul class="navbar-nav flex-grow-1 justify-content-end">
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <form asp-area="" asp-controller="Account" asp-action="Logout">
-                                                <button class="btn btn-outline-danger">Logout</button>
-                                            </form>
-                                        </li>
+                                            <li class="nav-item">
+                                                <form asp-area="" asp-controller="Account" asp-action="Logout">
+                                                    <button class="btn btn-outline-danger">Logout</button>
+                                                </form>
+                                            </li>
                                         }
                                         else
                                         {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
-                                        </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
+                                            </li>
                                         }
                             </ul>
                         </div>
                     </div>
                 </nav>
             </header>
+            <!-- Body -->
             <div class="container">
                     <br />
                 @RenderBody()
@@ -95,3 +101,9 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
