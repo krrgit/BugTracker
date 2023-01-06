@@ -10,84 +10,85 @@
     <link rel="stylesheet" href="~/BugTracker.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BugTracker</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
-                            </li>
-                            <li class="nav-item">
-                                <form asp-area="" asp-controller="Account" asp-action="Logout">
-                                    <button class="btn btn-outline-danger">Logout</button>
-                                </form>
-                            </li>
-                        } else 
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
-                            </li>
-                        }
-                    </ul>
+    <main >
+        <div class="h-100 w-100 position-absolute">
+        <div class="d-flex flex-row h-100">
+
+
+        <aside class="d-flex flex-column bg-light">
+            <!-- Logo -->
+            <div class="d-flex flex-column m-2 p-0 border-bottom text-center">
+                <div class="nav-item" role="button">
+                    <a asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="50" height="50" class="rounded-circle flex-shrink-0"></a>
                 </div>
+                <small class="mb-2">bugtracker</small>
             </div>
-        </nav>
-    </header>
-    <div class="d-flex" id="wrapper">
-    <div class="border-end bg-light text-center" id="sidebar-wrapper">
-        <a class="nav-link py-2 m-0 border-bottom" aria-current="page" title="" asp-controller="Home" asp-action="Index">
-             <img src="https://github.com/twbs.png" alt="twbs" width="50" height="50" class="rounded-circle flex-shrink-0">
-             </a>
-            <div class="flex-shrink-0 bg-light">
-            <a class="d-block p-0 m-0 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="center" data-bs-original-title="Icon-only"></a>
-                <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-                    @if (User.Identity.IsAuthenticated)
+            <!-- Dashboard -->
+            <div class="d-flex flex-column m-1 p-0 border-bottom text-center">
+                <div class="nav-item" role="button" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
+                </div>
+                <small class="mb-2">Dashboard</small>
+            </div>
+            <!--Project List-->
+            <div class="d-flex flex-column text-center">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    List<ProjectLinkViewModel> projectList = ViewBag.ProjecLinkVM;
+                    @if (projectList != null)
                     {
-                        List<ProjectLinkViewModel> projectList = ViewBag.ProjecLinkVM;
-                        @if (projectList != null)
+                        @foreach (var item in projectList)
                         {
-                            @foreach (var item in projectList)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link py-2 m-0 border-bottom" aria-current="page" title="" asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id" >
-                                        <img src="https://github.com/twbs.png" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0">
-                                        <p class="mb-0 opacity-75">@item.Title</p>
-                                    </a>
-                                </li>
-                            }
-
+                            <div class="nav-item m-2 mb-0" role="button" data-toggle="tooltip" data-placement="right" title="@item.Title">
+                             <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
+                            </div>
                         }
+
                     }
-            </ul>
+                }
+            </div>
+        </aside>
+        <aside class="container-fluid p-0">
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
+                    <div class="container-fluid">
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1 justify-content-end">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <form asp-area="" asp-controller="Account" asp-action="Logout">
+                                                <button class="btn btn-outline-danger">Logout</button>
+                                            </form>
+                                        </li>
+                                        }
+                                        else
+                                        {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
+                                        </li>
+                                        }
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="container">
+                    <br />
+                @RenderBody()
+            </div>
+        </aside>
         </div>
-    </div>
-    <div class="container">
-        <main role="main" class="pb-3 mt-3">
-            @RenderBody()
-        </main>
-    </div>
-
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - BugTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
- </div>
+    </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

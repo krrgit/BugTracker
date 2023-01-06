@@ -1,9 +1,12 @@
 ﻿@using BugTracker.ViewModels;
 
 @model ProjectDetailViewModel
+<div class="d-flex flex-column">
+<div>
 
 <h2>@Model.Title</h2>
 <h6>@Model.Description</h6>
+</div>
 <hr/> 
 
 <div class="row">
@@ -11,7 +14,7 @@
  <div class="col-9">
  <h3>Tickets</h3>
 
-<div class="list-group w-auto mb-2">
+<div class="list-group mb-2">
 	<!--Header-->
 	<a class="list-group-item disabled">
 		<div class="d-flex gap-2 w-100 justify-content-between">
@@ -31,7 +34,7 @@
 										<h6 class="mb-0">
 											<div>
 												@item.Title
-												<span class="badge bg-primary">  @item.Type</span>
+												<span class="badge bg-primary">@item.Type</span>
 												<span class="badge bg-info">@item.Priority</span>
 												<span class="badge bg-success">@item.Status</span>
 											</div>
@@ -129,6 +132,8 @@
 	</form>
 	</div>
   </div>
+</div>
+
 </div>
 
 @section Scripts
