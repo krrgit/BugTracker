@@ -7,17 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Controllers
 {
-	public class ProjectMemberController : Controller
+	public class ProjectMemberController : BaseController
 	{
-		private readonly AppDBContext _context;
 
-		public ProjectMemberController(AppDBContext context)
-		{
-			_context = context;
+		public ProjectMemberController(AppDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
+        {
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(ProjectViewModel model)
+		public async Task<IActionResult> Add(ProjectDetailViewModel model)
 		{
 			if (ModelState.IsValid)
 			{

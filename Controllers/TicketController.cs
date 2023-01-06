@@ -6,13 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Controllers
 {
-	public class TicketController : Controller
+	public class TicketController : BaseController
 	{
-		private readonly AppDBContext _context;
+		//private readonly AppDBContext _context;
 
-		public TicketController(AppDBContext context)
-		{
-			_context = context;
+		public TicketController(AppDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
+        {
 		}
 
 		public IActionResult Index()

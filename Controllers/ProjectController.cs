@@ -10,13 +10,11 @@ using System.Collections;
 
 namespace BugTracker.Controllers
 {
-	public class ProjectController : Controller
+	public class ProjectController : BaseController
 	{
-		private readonly AppDBContext _context;
 
-		public ProjectController(AppDBContext context)
+		public ProjectController(AppDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
 		{
-			_context = context;
 		}
 
 		public async Task<IActionResult> Index()
@@ -41,7 +39,7 @@ namespace BugTracker.Controllers
 
 			var appUsers = await _context.AppUsers.Where(a => !members.Contains(a)).ToListAsync();
 
-			ProjectViewModel projectVM = new ProjectViewModel()
+            ProjectDetailViewModel projectVM = new ProjectDetailViewModel()
 			{
 				Id = id,
 				Title = project.Title,
@@ -84,7 +82,7 @@ namespace BugTracker.Controllers
 
 
 		[HttpPost]
-		public async Task<IActionResult> Detail(ProjectViewModel model)
+		public async Task<IActionResult> Detail(ProjectDetailViewModel model)
 		{
 
 			if (ModelState.IsValid)

@@ -6,16 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BugTracker.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<Member> _userManager;
         private readonly SignInManager<Member> _signInManager;
-        private readonly AppDBContext _context;
-        public AccountController(UserManager<Member> userManager, SignInManager<Member> signInManager, AppDBContext context)
+        public AccountController(UserManager<Member> userManager, SignInManager<Member> signInManager, AppDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         public IActionResult Login()
@@ -89,7 +87,7 @@ namespace BugTracker.Controllers
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Submitter);
             }
 
-            return RedirectToAction("Index", "Project");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

@@ -2,7 +2,7 @@
 
 namespace BugTracker.ViewModels
 {
-    public class ProjectViewModel
+    public class ProjectDetailViewModel
     {
         public int Id { get; set; }
         public string? Title { get; set; }
