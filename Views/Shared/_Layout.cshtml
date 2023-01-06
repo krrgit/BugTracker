@@ -24,8 +24,8 @@
             </div>
             <!-- Dashboard -->
             <div class="d-flex flex-column m-1 p-0 border-bottom text-center">
-                <div class="nav-item" role="button" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
+                <div class="nav-item" role="button" data-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                    <a asp-controller="Dashboard" asp-action="Index"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
                 </div>
                 <small class="mb-2">Dashboard</small>
             </div>
@@ -38,8 +38,8 @@
                     {
                         @foreach (var item in projectList)
                         {
-                            <div class="nav-item m-2 mb-0" role="button" data-toggle="tooltip" data-placement="right" title="@item.Title">
-                             <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="50" height="50" class="rounded-circle m-0 p-0 flex-shrink-0"></a>
+                            <div class="nav-item m-2 mb-0" role="button">
+                            <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="50" height="50" class="rounded-circle m-0 p-0 flex-shrink-0"  data-toggle="tooltip" data-bs-placement="right" title="@item.Title"></a>
                             </div>
                         }
 
@@ -54,13 +54,15 @@
                     <div class="container-fluid">
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1 justify-content-start align-items-center">
-                                <li class="nav-item m-0 p-0">
-                                    <a class="nav-link text-dark m-0 p-0" asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="30" height="30" class="rounded-circle flex-shrink-0"></a>
+                                <li class="nav-item my-0 p-0">
+                                    <a class="nav-link text-dark m-0 p-0" asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
                                 </li>
                                     @if (User.Identity.IsAuthenticated)
                                     {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                        <li class="nav-item mx-3">
+                                            <h6 class="m-0 p-0">
+                                            <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                      </h6>
                                     </li>
                                     }
                             </ul>
