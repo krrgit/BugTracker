@@ -4,23 +4,28 @@
 <div class="col-md-8">
 
 <div class="card">
-  <div class="card-body">
-    <div class="card-subtitle mb-2 text-muted d-flex gap-2">
-        <div>
-            <b>Project ID: @Model.ProjectId</b>
+    <div class="card-body">
+        <div class="card-subtitle mb-2 text-muted d-flex gap-2">
+            <div> <b>Project ID: @Model.ProjectId</b></div>
+            @if (@Model.Author != null) {
+                <div>Posted by: @Model.Author</div>
+            } else {
+                <div>Posted by: none</div>
+            }
         </div>
-        <div>Posted by: kevindev</div>
-        <dive>Created: @Model.CreatedAt</dive>
+        <h5 class="card-title">@Model.Title</h5>
+        <div class="d-flex gap-2">
+            <span class="badge bg-primary">@Model.Type</span>
+            <span class="badge bg-info">@Model.Priority</span>
+            <span class="badge bg-success">@Model.Status</span>
+        </div>
+            <br>
+            <p class="card-text">@Model.Description</p>
+        </div>
+        <div class="mx-2 opacity-75 d-flex flex-col">
+            <p class="mx-1">Created: @Model.CreatedAt</p>
+            <p class="mx-1">Updated: @Model.UpdatedAt</p>
+        </div>
+
     </div>
-    <h5 class="card-title">@Model.Title</h5>
-    <div class="d-flex gap-2">
-        <span class="badge bg-primary">@Model.Type</span>
-        <span class="badge bg-info">@Model.Priority</span>
-        <span class="badge bg-success">@Model.Status</span>
-    </div>
-    <br>
-    <p class="card-text">@Model.Description</p>
-  </div>
-    </div>
-</div>
 </div>

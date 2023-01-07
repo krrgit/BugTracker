@@ -10,7 +10,7 @@ namespace BugTracker.Controllers
     {
         public List<ProjectLinkViewModel> _projecLinkVM { get; set; }
         protected readonly AppDBContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
 
         public BaseController(AppDBContext context, IHttpContextAccessor httpContextAccessor)
         {

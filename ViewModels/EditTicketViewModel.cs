@@ -1,5 +1,6 @@
 ﻿using BugTracker.Data.Enum;
 using BugTracker.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BugTracker.ViewModels
 {
@@ -19,5 +20,6 @@ namespace BugTracker.ViewModels
 		public string? ProjectTitle { get; set; }
 		public DateTime? CreatedAt { get; set; }
 		public DateTime? UpdatedAt { get; set; }
+		public List<Member>? TeamSelectList { get; set; }
 	}
 }

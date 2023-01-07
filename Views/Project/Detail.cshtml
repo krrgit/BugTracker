@@ -29,34 +29,51 @@
 	@foreach (var item in Model.Tickets)
 	{
 					<input type="hidden" name="id" value="@item.Id" />
-						<a  asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+						<a  asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
 					<img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
 					<div class="d-flex gap-2 w-100 justify-content-between">
 						<div>
-										<h6 class="mb-0">
-											<div>
-												@item.Title
-												<span class="badge bg-primary">@item.Type</span>
-												<span class="badge bg-info">@item.Priority</span>
-												<span class="badge bg-success">@item.Status</span>
-											</div>
-										</h6>
-							<p class="mb-0 opacity-75">@item.Description</p>
-						</div>
-						<div>
-							<small class="opacity-50 text-nowrap">@item.UpdatedAt</small>
-								<div class="btn-group" role="group" aria-label="Basic example">
-										<form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
-										<input type="hidden" name="id" value="@item.Id" />
-										<input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
-										</form>
-										<form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
-											<input type="hidden" name="id[0]" value="@item.Id" />
-											<input type="hidden" name="id[1]" value="@Model.Id" />
-											<input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
-										</form>
-
+							<h6 class="mb-0">
+								<div>
+									@item.Title
+									<span class="badge bg-primary">@item.Type</span>
+									<span class="badge bg-info">@item.Priority</span>
+									<span class="badge bg-success">@item.Status</span>
 								</div>
+							</h6>
+							<p class="mb-0 opacity-75">@item.Description</p>
+							<div class="d-flex flex-row">
+								@if(item.AssignedDev != null)
+								{
+									<p class="mb-0 opacity-75">Assigned to: @item.AssignedDev.FullName()</p>
+								} else
+								{
+									<p class="mb-0 opacity-75">Assigned to: none</p>
+								}
+								@if (item.Author != null)
+								{
+											<p class="mx-1 mb-0 opacity-75"> • Posted by: @item.Author.FullName()</p>
+								}
+								else
+								{
+									<p class="mx-1 mb-0 opacity-75"> • Posted by: </p>
+								}
+								</div>
+						</div>
+								<div class="d-flex align-items-end flex-column">
+							<div><small class="opacity-50 text-nowrap">@item.UpdatedAt</small></div>
+							<!-- Ticket Buttons-->
+								<div class="btn-group justify-content-end" role="group" aria-label="Basic example">
+									<form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+									<input type="hidden" name="id" value="@item.Id" />
+									<input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+									</form>
+									<form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
+										<input type="hidden" name="id[0]" value="@item.Id" />
+										<input type="hidden" name="id[1]" value="@Model.Id" />
+										<input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
+									</form>
+							</div>
 						</div>
 					</div>
 				</a>
