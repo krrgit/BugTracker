@@ -86,7 +86,8 @@ namespace BugTracker.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var userTicket = await _context.Tickets.AsNoTracking().FirstOrDefaultAsync(i => i.Id == ticketVM.Id);
+                ModelState.Remove("JobIndicator");
+                var userTicket = await _context.Tickets.AsNoTracking().FirstOrDefaultAsync(i => i.Id == ticketVM.Id);
 
 				if (userTicket == null)
 				{
@@ -99,7 +100,7 @@ namespace BugTracker.Controllers
 					Title = ticketVM.Title,
 					Description = ticketVM.Description,
 					Priority = ticketVM.Priority,
-					Status = Data.Enum.TicketStatus.New,
+					Status = ticketVM.Status,
 					Type = ticketVM.Type,
 					ProjectId = ticketVM.ProjectId,
 					CreatedAt = userTicket.CreatedAt,
@@ -107,7 +108,7 @@ namespace BugTracker.Controllers
 				};
 				_context.Update(ticket);
 				_context.SaveChanges();
-				return RedirectToAction("Detail", "Project", new { id = ticketVM.ProjectId });
+				return RedirectToAction("Detail", "Ticket", new { id = ticketVM.Id });
 			}
 
 			ModelState.AddModelError("", "Error");
