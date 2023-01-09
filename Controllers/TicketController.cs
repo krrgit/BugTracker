@@ -165,7 +165,12 @@ namespace BugTracker.Controllers
 					ticket.AssignedDev = await _context.Users.FindAsync(ticketVM.AssignedDevId);
 				}
 
-				_context.Update(ticket);
+				if (ticketVM.AuthorId != null)
+				{
+                    ticket.Author = await _context.Users.FindAsync(ticketVM.AuthorId);
+                }
+
+                _context.Update(ticket);
 				_context.SaveChanges();
 				return RedirectToAction("Detail", "Ticket", new { id = ticketVM.Id });
 			}
@@ -186,7 +191,7 @@ namespace BugTracker.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Detail(int id)
 		{
-			var ticket = await _context.Tickets.FindAsync(id);
+			var ticket = await _context.Tickets.Include(t =>t.AssignedDev).Include(t => t.Author).FirstOrDefaultAsync(t => t.Id == id);
 
 			return View(ticket);
 		}

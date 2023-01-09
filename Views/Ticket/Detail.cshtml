@@ -2,75 +2,84 @@
 @using BugTracker.Models;
 @model Ticket
 <div class="row d-flex justify-content-center">
-<div class="col-md-8">
-
-<div class="card">
-  <div class="card-body">
-    <div class="card-subtitle mb-2 text-muted d-flex gap-2">
-        <div>
-            <b>Project ID: @Model.ProjectId</b>
-        </div>
-<<<<<<< Updated upstream
-        <div>Posted by: kevindev</div>
-        <dive>Created: @Model.CreatedAt</dive>
-    </div>
-    <h5 class="card-title">@Model.Title</h5>
-    <div class="d-flex gap-2">
-        <span class="badge bg-primary">@Model.Type</span>
-        <span class="badge bg-info">@Model.Priority</span>
-        <span class="badge bg-success">@Model.Status</span>
-    </div>
-    <br>
-    <p class="card-text">@Model.Description</p>
-  </div>
-    </div>
-</div>
-</div>
-=======
-        <h5 class="card-title">@Model.Title</h5>
-        <div class="d-flex gap-2">
-            <span class="badge bg-primary">@Model.Type</span>
-            <span class="badge bg-info">@Model.Priority</span>
-            <span class="badge bg-success">@Model.Status</span>
-        </div>
-            <br>
-            <p class="card-text">@Model.Description</p>
-        </div>
-        <div>
-            <div class="mx-2 opacity-75 d-flex flex-col">
-                <p class="mx-1">Created: @Model.CreatedAt</p>
-                <p class="mx-1">Updated: @Model.UpdatedAt</p>
-            </div> 
-        </div>
-            <form id="statusForm" method="post" asp-action="Edit" enctype="multipart/form-data">
-                <input type="hidden" asp-for="@Model.Id" />
-                    <input type="hidden" asp-for="@Model.ProjectId" />
-                    <input type="hidden" asp-for="@Model.Title" />
-                    <input type="hidden" asp-for="@Model.Description" />
-                    <input type="hidden" asp-for="@Model.Priority" />
-                    <input type="hidden" asp-for="@Model.Type" />
-                    <input type="hidden" id="Status" name="Status" value='1'/>
-                @if(Model.AssignedDev != null)
-                {
-                    <input type="hidden" id="AssignedDevId" value="@Model.AssignedDev.Id" />
-                }
-                @if (Model.Author != null)
-                {
-                    <input type="hidden" id="AuthorId" value="@Model.Author.Id" />
-                }
-            </form>
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Mark As...
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >  
-                    @foreach (var item in Html.GetEnumSelectList<TicketStatus>())
+    <div class="list-group mb-2 col-md-8">
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <h6 class="mb-0"><a >< Project @Model.ProjectId</a></h6>
+            </div>
+            <div class="opacity-75"><small class="d-flex flex-row align-items-center">Posted by: @if (@Model.Author != null)
                     {
-                        <li><button class="dropdown-item" onclick="setStatus('@item.Value')" id="btnSubmit">@item.Text</button></li>
-                    }
-              </ul>
+                            <p class="m-0 py-0 px-1">@Model.Author.FullName()</p>
+                    }</small></div>
+            <div class="opacity-75"><small>Created: @Model.CreatedAt</small></div>
+        </div>
+        <!-- Body -->
+        <div class="list-group-item d-flex flex-column">
+            <h4 class="pt-2 pb-0 mb-1">@Model.Title</h4>
+            <div class="d-flex gap-2 pb-3">
+                <span class="badge bg-primary">@Model.Type</span>
+                <span class="badge bg-info">@Model.Priority</span>
+                <span class="badge bg-success">@Model.Status</span>
+            </div>
+            <p>@Model.Description</p>
+        </div>
+        <!-- Footer -->
+        <div class="list-group-item d-flex justify-content-between align-items-center">     
+            <div >
+                <div class="opacity-75">
+                    <small class="d-flex flex-row align-items-center">
+                       Assigned to:
+                       @if (@Model.AssignedDev != null)
+                        {
+                                <p class="m-0 py-0 px-1">@Model.AssignedDev.FullName()</p>
+                        }
+                    </small>
+                </div>
+            </div>
+            <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
+                <div class="dropdown">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mark As...
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >  
+                        @foreach (var item in Html.GetEnumSelectList<TicketStatus>())
+                        {
+                            <li><button class="dropdown-item" onclick="setStatus('@item.Value')" id="btnSubmit">@item.Text</button></li>
+                        }
+                    </ul>
+                </div>
+                <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+                    </form>
+                    <form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
+                        <input type="hidden" name="id[0]" value="@Model.Id" />
+                        <input type="hidden" name="id[1]" value="@Model.Id" />
+                        <input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
+                    </form>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Hidden form for "Mark As..." button-->
+<form id="statusForm" method="post" asp-action="Edit" enctype="multipart/form-data">
+<input type="hidden" asp-for="@Model.Id" />
+<input type="hidden" asp-for="@Model.ProjectId" />
+<input type="hidden" asp-for="@Model.Title" />
+<input type="hidden" asp-for="@Model.Description" />
+<input type="hidden" asp-for="@Model.Priority" />
+<input type="hidden" asp-for="@Model.Type" />
+<input type="hidden" id="Status" name="Status" value='@Model.Status'/>
+    @if (Model.AssignedDev != null)
+    {
+                            <input type="hidden" id="AssignedDevId" value="@Model.AssignedDev.Id" />
+    }
+    @if (Model.Author != null)
+    {
+                            <input type="hidden" id="AuthorId" value="@Model.Author.Id" />
+    }
+</form>
 
 @section Scripts
 {
@@ -82,4 +91,3 @@
  }
 </script>
 }
->>>>>>> Stashed changes

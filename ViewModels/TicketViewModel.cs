@@ -16,6 +16,7 @@ namespace BugTracker.ViewModels
 		public TicketType? Type { get; set; }
 
 		public string? ProjectTitle { get; set; }
+		public int ProjectId { get; set; }
 		public DateTime? CreatedAt { get; set; }
 		public DateTime? UpdatedAt { get; set; }
 	}
