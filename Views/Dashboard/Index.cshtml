@@ -1,5 +1,193 @@
-﻿
+﻿@using BugTracker.ViewModels;
+@model DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
 }
-<h1>Dashboard</h1>
+<div class="d-flex flex-column">
+<div>
+<h2>Dashboard</h2>
+</div>
+<hr/> 
+
+<div class="row">
+<!-- Tickets -->
+ <div class="col-9">
+ <h3>Tickets</h3>
+
+<div class="list-group mb-2">
+	<!--Header-->
+
+</div>
+</div>
+
+<!-- Progress -->
+<div class="col-3">
+<h3>Progress</h3>
+<div class="align-self-center" id="chartBox">
+    <canvas id="doughnut-chart" width="800" height="450"></canvas>
+</div>
+
+@{//<canvas id="bar-chart" width="800" height="450"></canvas> 
+}
+
+<style>
+    #customLegend ul {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+    }
+
+    #customLegend ul li {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        flex-direction: row;
+        margin-bottom: 5px;
+        line-height: 22px;
+    }
+
+    #customLegend ul li span {
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+        margin-right: 10px;
+    }
+
+    #customLegend ul li p {
+        margin: 0;
+        padding: 0;
+        color: rgba(102,102,102,1);
+    }
+
+    #customLegend ul li.dim p {
+        margin: 0;
+        padding: 0;
+        color: rgba(102,102,102,0.5);
+    }
+
+
+
+
+</style>
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+
+        // Doughnut Chart
+        const myChart = new Chart(document.getElementById("doughnut-chart"), {
+            type: 'doughnut',
+            data: {
+              labels: ["Resolved", "New", "Open", "In Progress", "Additional Info Required"],
+              datasets: [
+                    @for (int i=0;i<Model.ProjectProgress.Count;++i)
+                    {
+                        var item = Model.ProjectProgress[i];
+                        var isHidden = i == 0 ? "true" : "false";
+                        <text>
+                        {
+                            label: 'Tickets',
+                                    backgroundColor: ['@Model.ProjectColors[i]', '#f3f3f3','#f3f3f3','#f3f3f3', '#f3f3f3'],
+                            data: [@item[0], @item[1], @item[2], @item[3], @item[4]],
+                            hidden: false,
+                        },
+                        </text>
+                    }
+              ]
+            },
+            options: {
+                labels: {
+                    display: false
+                },
+                legend: {
+                    display: false
+                 },
+              title: {
+                display: false,
+                text: 'Project Task Progress'
+              }
+            },
+        });
+
+        function GenerateLegend() {
+            // Get legend parent
+            const chartBox = document.getElementById('chartBox');
+            // Create Div
+            const div = document.createElement('div');
+            div.setAttribute('id', 'customLegend');
+
+            // Create UL
+            const ul = document.createElement('ul');
+            
+            //console.log(myChart.data.datasets);
+                    // myChart.chart._sortedMetasets
+
+            var titles = {
+                    @for(int i=0;i<Model.ProjectTitles.Count;++i)
+                    {
+                        <text>@i: '@Model.ProjectTitles[i]',</text>
+                    }
+            };
+            var colors = {
+                    @for (int i = 0; i < Model.ProjectTitles.Count; ++i)
+                    {
+                        <text>@i: '@Model.ProjectColors[i]',</text>
+                    }
+                };
+
+            myChart.data.datasets.forEach((dataset, index) => {
+                const text = titles[index];
+                    const bgColor = colors[index];
+
+                dataset.backgroundColor[0] = bgColor;
+                
+                // create li in foreach loop
+                const li = document.createElement('li');
+                
+                // span colorbox
+                const spanBox = document.createElement('span');
+                //spanBox.style.borderColor = bColor;
+                spanBox.style.backgroundColor = bgColor;
+
+                // p + text
+                const p = document.createElement('p');
+                const textNode = document.createTextNode(text);
+
+                li.onclick = (click) => {
+                    dataset.hidden = !dataset.hidden;
+
+                    UpdateLegend(click);
+
+
+                    //t = datasetIndex;
+                    //setDatasetVisibility(t,e) {this.getDatasetMeda(t).hidden=! e};
+                };
+
+                ul.appendChild(li);
+                li.appendChild(spanBox);
+                li.appendChild(p);
+                p.appendChild(textNode);
+            });
+
+            // Insert div as child
+            chartBox.appendChild(div);
+            div.append(ul);
+        };
+
+        function UpdateLegend(click) {
+            const element = click.target.parentNode;
+            element.classList.toggle('dim');
+            console.log(click);
+                                    myChart.update();
+        }
+
+        GenerateLegend();
+    });
+</script>
+
+}

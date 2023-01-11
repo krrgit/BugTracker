@@ -96,7 +96,14 @@ namespace BugTracker.Controllers
 				return RedirectToAction("Detail", "Project", new { id = ticketVM.Id });
 			}
 
-			ModelState.AddModelError("", "Error");
+            var members = await _context.AppUsers
+                .Include(m => m.MemberProjects)
+                    .ThenInclude(mp => mp.Project)
+                        .Where(m => m.MemberProjects.Any(mp => mp.ProjectId == ticketVM.ProjectId)).ToListAsync();
+
+			ticketVM.TeamSelectList = members;
+
+            ModelState.AddModelError("", "Error");
 			return View(ticketVM);
 		}
 

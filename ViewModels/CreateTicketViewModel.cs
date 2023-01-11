@@ -6,8 +6,8 @@ namespace BugTracker.ViewModels
 	public class CreateTicketViewModel
 	{
 		public int Id { get; set; }
-		public string? Title { get; set; }
-		public string? Description { get; set; }
+		public string Title { get; set; }
+		public string Description { get; set; }
 		public string? AssignedDevId { get; set; }
 		public Member? AssignedDev { get; set; }
 		public string? AuthorId { get; set; }

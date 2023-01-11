@@ -31,6 +31,8 @@ namespace BugTracker.Controllers
 			Console.WriteLine("Project ID:" + id);
 
 			var tickets = await _context.Tickets.Where(t => t.ProjectId == id).ToListAsync();
+			tickets.Reverse();
+
 			var members = await _context.AppUsers
 				.Include(m => m.MemberProjects)
 					.ThenInclude(mp => mp.Project)
@@ -112,6 +114,32 @@ namespace BugTracker.Controllers
 			return RedirectToAction("Index");
 		}
 
+		public async Task<IActionResult> Create()
+		{
+			var appUsers = await _context.AppUsers.ToListAsync();
+			var projectVM = new CreateProjectViewModel()
+			{
+				AppUsers = appUsers,
+			};
+			return View(projectVM);
+		}
 
+		[HttpPost]
+		public IActionResult Create(CreateProjectViewModel projectVM)
+		{
+			if (ModelState.IsValid)
+			{
+				var project = new Project()
+				{
+					Title = projectVM.Title,
+					Description = projectVM.Description
+				};
+				_context.Add(project);
+				_context.SaveChanges();
+				return RedirectToAction("Index", "Project");
+			}
+			return View(projectVM);
+		}
 	}
+
 }

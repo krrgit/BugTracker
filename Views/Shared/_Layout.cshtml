@@ -67,9 +67,10 @@
                                     </li>
                                     }
                             </ul>
-                            <ul class="navbar-nav flex-grow-1 justify-content-end">
+                            <ul class="navbar-nav flex-grow-1 justify-content-end align-items-center">
                                         @if (User.Identity.IsAuthenticated)
                                         {
+                                            <li class="nav-item px-3"><div>Hello, @ViewData["FullName"]</div></li>
                                             <li class="nav-item">
                                                 <form asp-area="" asp-controller="Account" asp-action="Logout">
                                                     <button class="btn btn-outline-danger">Logout</button>
