@@ -78,7 +78,6 @@
 
 <script>
     $(document).ready(function() {
-
         // Doughnut Chart
         const myChart = new Chart(document.getElementById("doughnut-chart"), {
             type: 'doughnut',
@@ -112,6 +111,67 @@
                 text: 'Project Task Progress'
               }
             },
+            plugins: [{
+                    id: 'text',
+                    beforeDraw: function(chart, a, b) {
+                    // get values
+                    var resolved = 0;
+                    var total = 0;
+
+                    // Sum all tickets and resolved tickets
+                    myChart.data.datasets.forEach((dataset) => {
+                        if (!dataset.hidden) {
+                            resolved += dataset.data[0];
+                            dataset.data.forEach((value) => {
+                                total += value;
+                            });
+                        }
+                    });
+
+                    var percentage = (100 * resolved/total).toFixed(0);
+
+                    // Draw Percentage
+                    var width = chart.width,
+                    height = chart.height,
+                    ctx = chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = (height / 150).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    var text = percentage + "%",
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = height * 1.11 / 2;
+
+                    ctx.fillStyle = "#000000";
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+
+                    // Draw numer / denom
+                    ctx.fillStyle = "#666666";
+                    fontSize = (height / 275).toFixed(2);
+                    ctx.font = "525 " + fontSize + "em sans-serif";
+                    text = resolved + "/" + total;
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = height * 1.3 / 2;
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+
+                    // Draw Resolved
+                    ctx.fillStyle = "#000000";
+                    fontSize = (height / 350).toFixed(2);
+                    ctx.font = "550 " + fontSize + "em sans-serif";
+                    text = "Resolved";
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = height * 1.43 / 2;
+                        
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }],
         });
 
         function GenerateLegend() {
@@ -124,25 +184,24 @@
             // Create UL
             const ul = document.createElement('ul');
             
-            //console.log(myChart.data.datasets);
-                    // myChart.chart._sortedMetasets
-
-            var titles = {
+            // Generate Arrays
+            const titles = {
                     @for(int i=0;i<Model.ProjectTitles.Count;++i)
                     {
                         <text>@i: '@Model.ProjectTitles[i]',</text>
                     }
             };
-            var colors = {
+            const colors = {
                     @for (int i = 0; i < Model.ProjectTitles.Count; ++i)
                     {
                         <text>@i: '@Model.ProjectColors[i]',</text>
                     }
-                };
+            };
 
+            // access dataset values
             myChart.data.datasets.forEach((dataset, index) => {
                 const text = titles[index];
-                    const bgColor = colors[index];
+                const bgColor = colors[index];
 
                 dataset.backgroundColor[0] = bgColor;
                 
@@ -162,16 +221,13 @@
                     dataset.hidden = !dataset.hidden;
 
                     UpdateLegend(click);
-
-
-                    //t = datasetIndex;
-                    //setDatasetVisibility(t,e) {this.getDatasetMeda(t).hidden=! e};
                 };
 
                 ul.appendChild(li);
                 li.appendChild(spanBox);
                 li.appendChild(p);
                 p.appendChild(textNode);
+
             });
 
             // Insert div as child
@@ -182,8 +238,7 @@
         function UpdateLegend(click) {
             const element = click.target.parentNode;
             element.classList.toggle('dim');
-            console.log(click);
-                                    myChart.update();
+            myChart.update();
         }
 
         GenerateLegend();
