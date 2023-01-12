@@ -1,11 +1,15 @@
-﻿namespace BugTracker.Data.Enum
+﻿using System.ComponentModel;
+
+namespace BugTracker.Data.Enum
 {
 	public enum TicketStatus
 	{
 		Resolved,
 		New,
 		Open,
-		InProgress,
-		AddInfoReqd
+        [Description("In Progress")]
+        InProgress,
+        [Description("Add. Info Req'd")]
+        AddInfoReqd
 	}
 }

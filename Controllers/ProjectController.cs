@@ -20,8 +20,9 @@ namespace BugTracker.Controllers
 		public async Task<IActionResult> Index()
 		{
 			//var projects = _projectRepository.GetAll().Result.ToList();
-			var projects = await _context.Projects.ToListAsync();
-			return View(projects);
+			//var projects = await _context.Projects.ToListAsync();
+
+			return View(_projecLinkVM);
 		}
 
 		public async Task<IActionResult> Detail(int id)

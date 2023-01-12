@@ -1,7 +1,10 @@
-﻿namespace BugTracker.ViewModels
+﻿using BugTracker.Models;
+
+namespace BugTracker.ViewModels
 {
     public class DashboardViewModel
     {
+        public List<List<Ticket>> TicketLists { get; set; }
         public List<int[]> ProjectProgress {get;set;}
         public List<string> ProjectTitles { get; set; }
 

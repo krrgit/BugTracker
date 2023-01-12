@@ -19,7 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Content\" />
     <Folder Include="Views\ProjectMember\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\logo.png" />
   </ItemGroup>
 
 </Project>

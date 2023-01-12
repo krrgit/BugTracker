@@ -1,4 +1,6 @@
-﻿@using BugTracker.ViewModels;
+﻿@using BugTracker.Data.Enum;
+@using BugTracker.Extensions;
+@using BugTracker.ViewModels;
 @model DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
@@ -11,13 +13,67 @@
 
 <div class="row">
 <!-- Tickets -->
- <div class="col-9">
- <h3>Tickets</h3>
+     <div class="col-9">
+     <h3>Tickets</h3>
 
-<div class="list-group mb-2">
 	<!--Header-->
-
-</div>
+    @for(int i=0;i<Model.TicketLists.Count;++i) {
+    <div class="list-group mb-3">
+                <a class="list-group-item disabled">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <h5 class="mb-0">@Model.ProjectTitles[i]</h5>
+                </div>
+            </div>
+        </a>
+        <!--Tickets List-->
+                    @foreach (var item in Model.TicketLists[i])
+                    {
+                            <input type="hidden" name="id" value="@item.Id" />
+                                <a  asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
+                            <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+                            <div class="d-flex gap-2 w-100 justify-content-between">
+                                <div>
+                                    <h6 class="mb-0">
+                                        <div>
+                                            @item.Title
+                                                    <span class="badge bg-primary">@(((TicketType)item.Type).GetDescription())</span>
+                                            <span class="badge bg-info">@item.Priority</span>
+                                                            <span class="badge bg-success">@(((TicketStatus)item.Status).GetDescription())</span>
+                                        </div>
+                                    </h6>
+                                    <p class="mb-0 opacity-75">@item.Description</p>
+                                    <div class="d-flex flex-row">
+                                        @if (item.Author != null)
+                                        {
+                                            <p class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="mx-0 mb-0 opacity-75">Posted by: </p>
+                                        }
+                                        </div>
+                                </div>
+                                        <div class="d-flex align-items-end flex-column">
+                                    <div><small class="opacity-50 text-nowrap">@item.UpdatedAt</small></div>
+                                    <!-- Ticket Buttons-->
+                                        <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
+                                            <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+                                            </form>
+                                            <form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
+                                                <input type="hidden" name="id[0]" value="@item.Id" />
+                                                <input type="hidden" name="id[1]" value="@item.ProjectId" />
+                                                <input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+        </div>
+        }
 </div>
 
 <!-- Progress -->
@@ -142,7 +198,7 @@
 
                     var text = percentage + "%",
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
-                    textY = height * 1.11 / 2;
+                    textY = height * 1.15 / 2;
 
                     ctx.fillStyle = "#000000";
 
@@ -155,7 +211,7 @@
                     ctx.font = "525 " + fontSize + "em sans-serif";
                     text = resolved + "/" + total;
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
-                    textY = height * 1.3 / 2;
+                    textY = height * 1.33 / 2;
 
                     ctx.fillText(text, textX, textY);
                     ctx.save();
@@ -166,7 +222,7 @@
                     ctx.font = "550 " + fontSize + "em sans-serif";
                     text = "Resolved";
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
-                    textY = height * 1.43 / 2;
+                    textY = height * 1.46 / 2;
                         
                     ctx.fillText(text, textX, textY);
                     ctx.save();

@@ -1,15 +1,16 @@
-﻿@model IEnumerable<Project>
+﻿@using BugTracker.ViewModels;
+@model IEnumerable<ProjectLinkViewModel>
 @{
     ViewData["Title"] = "Projects";
 }
 
-<div class="album py-5">
+<div class="album py-3">
     <div class="container">
 
         <div class="row">
             @foreach (var item in Model)
             {
-                <div class="card" style="width: 18rem;">
+                <div class="card m-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
                             <p class="card-text">@item.Description</p>

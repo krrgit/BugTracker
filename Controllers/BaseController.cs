@@ -44,7 +44,8 @@ namespace BugTracker.Controllers
                 var p = new ProjectLinkViewModel
                 {
                     Id = project.Id,
-                    Title = project.Title
+                    Title = project.Title,
+                    Description = project.Description,
                 };
                 _projecLinkVM.Add(p);
             }

@@ -1,6 +1,6 @@
 ﻿@using BugTracker.ViewModels;
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,86 +11,104 @@
     <link rel="stylesheet" href="~/BugTracker.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <main >
+    <main>
         <div class="h-100 w-100 position-absolute">
-        <div class="d-flex flex-row h-100">
-
-
-        <aside class="d-flex flex-column bg-light">
-            <!-- Logo -->
-            <div class="d-flex flex-column m-2 pb-2 border-bottom text-center">
-                <div class="nav-item" role="button">
-                    <a ><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
-                </div>
-            </div>
-            <!-- Dashboard -->
-            <div class="d-flex flex-column m-1 p-0 border-bottom text-center">
-                <div class="nav-item" role="button" data-toggle="tooltip" data-bs-placement="right" title="Dashboard">
-                    <a asp-controller="Dashboard" asp-action="Index"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
-                </div>
-                <small class="mb-2">Dashboard</small>
-            </div>
-            <!--Project List-->
-            <div class="d-flex flex-column text-center">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    List<ProjectLinkViewModel> projectList = ViewBag.ProjecLinkVM;
-                    @if (projectList != null)
-                    {
-                        @foreach (var item in projectList)
-                        {
-                            <div class="nav-item m-2 mb-0" role="button">
-                            <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="50" height="50" class="rounded-circle m-0 p-0 flex-shrink-0"  data-toggle="tooltip" data-bs-placement="right" title="@item.Title"></a>
-                            </div>
-                        }
-
-                    }
-                }
-            </div>
-        </aside>
-        <aside class="container-fluid p-0">
             <!-- Header -->
-            <header>
+            <header class="sticky-top">
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
-                    <div class="container-fluid">
+                    <div class="container-fluid px-2">
+                        <!-- Logo -->
+                        <div class="d-flex flex-column text-center">
+                            <div class="nav-item" role="button">
+                                <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" width="40" height="40" class="flex-shrink-0"><i class="bi bi-speedometer2"></i></a>
+                            </div>
+                        </div>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                             <ul class="navbar-nav flex-grow-1 justify-content-start align-items-center">
-                                <li class="nav-item my-0 p-0">
-                                    <a class="nav-link text-dark m-0 p-0" asp-controller="Home" asp-action="Index"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle flex-shrink-0"></a>
-                                </li>
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li class="nav-item mx-3">
-                                            <h6 class="m-0 p-0">
-                                            <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
-                                      </h6>
-                                    </li>
-                                    }
-                            </ul>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                            <li class="nav-item mx-2">
+                                                <h6 class="m-0 px-2">
+                                                <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                              </h6>
+                                        </li>
+                                }
+                                else
+                                {
+                                                <li class="nav-item">
+                                                <h6 class="m-0 px-2">
+                                                    <div class="nav-link text-dark align-items-center">BugTracker</div>
+                                                  </h6>
+                                                </li>
+                                }
+                                    </ul>
                             <ul class="navbar-nav flex-grow-1 justify-content-end align-items-center">
-                                        @if (User.Identity.IsAuthenticated)
-                                        {
-                                            <li class="nav-item px-3"><div>Hello, @ViewData["FullName"]</div></li>
-                                            <li class="nav-item">
-                                                <form asp-area="" asp-controller="Account" asp-action="Logout">
-                                                    <button class="btn btn-outline-danger">Logout</button>
-                                                </form>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
-                                            </li>
-                                        }
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                                <li class="nav-item px-3"><div>Hello, @ViewData["FullName"]</div></li>
+                                                <li class="nav-item">
+                                                    <form asp-area="" asp-controller="Account" asp-action="Logout">
+                                                        <button class="btn btn-outline-danger">Logout</button>
+                                                    </form>
+                                                </li>
+                                }
+                                else
+                                {
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
+                                                </li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </nav>
+                <div class="d-flex flex-row h-100 fixed-top" style="margin-top:60px; width:60px;">
+            <aside class="d-flex flex-column bg-light">
+                <!-- Dashboard -->
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="d-flex flex-column m-2 mb-0 pb-2 border-bottom text-center">
+                                <div class="nav-item" role="button" data-toggle="tooltip" data-bs-placement="right" title="Dashboard" width="40" height="40" >
+                                    <a asp-controller="Dashboard" asp-action="Index">
+                                                <div class="bg-secondary rounded-circle d-flex align-items-center" style="height:40px">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#fff" class="bi bi-speedometer" viewBox="0 0 16 16" style="display: block; margin:auto;">
+                                                    <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                                                    <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
+                                                </svg>
+                                        </div>
+                                </a>
+                            </div>
+                        </div>
+                        }
+                <!--Project List-->
+                <div class="d-flex flex-column text-center">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                List<ProjectLinkViewModel> projectList = ViewBag.ProjecLinkVM;
+                                @if (projectList != null)
+                                {
+                                    @foreach (var item in projectList)
+                                    {
+                                            <div class="nav-item m-2 mb-0" role="button">
+                                            <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle m-0 p-0 flex-shrink-0"  data-toggle="tooltip" data-bs-placement="right" title="@item.Title"></a>
+                                            </div>
+                                    }
+
+                                }
+                            }
+                </div>
+            </aside>
+        </div>
             </header>
+            
+        <div class="d-flex flex-row h-100">
+            <aside class="d-flex flex-column bg-light" style="width:60px;">
+                </aside>
+        <aside class="container-fluid p-0">
             <!-- Body -->
             <div class="container">
                     <br />
