@@ -1,0 +1,30 @@
+﻿@using BugTracker.Data.Enum
+@using BugTracker.ViewModels
+@model EditProjectViewModel
+
+@{
+	ViewData["Title"] = "Edit " + Model.Title;
+}
+<div class="row d-flex justify-content-center">
+<div class="col-md-8">
+<h2>Edit @Model.Title</h2>
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+	<input type="hidden" value="Id" id="Id" />
+	<div class="form-group mb-1">
+		<label asp-for="Title">Title</label>
+		<input asp-for="Title" class="form-control" placeholder="Title">
+		<span asp-validation-for="Title" class="text-danger"></span>  
+	</div>
+	<div class="form-group mb-1">
+		<label asp-for="Description">Description</label>
+		<textarea asp-for="Description" class="form-control" placeholder="Description" rows="3"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>  
+	</div>
+	<button type="submit" class="btn btn-primary gap-2">Save Changes</button>
+</form>
+
+
+
+</div>
+</div>

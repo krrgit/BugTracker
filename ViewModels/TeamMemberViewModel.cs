@@ -7,7 +7,7 @@ namespace BugTracker.ViewModels
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get; set; }
+        public string FullName() { return FirstName + " " + LastName; }
         public string Role { get; set; }
 
     }

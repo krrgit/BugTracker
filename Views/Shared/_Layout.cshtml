@@ -9,6 +9,40 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BugTracker.styles.css" asp-append-version="true" />
+    <style>
+        /* Badge Priority*/
+        .bg-High {
+            background-color:#dc3545;
+        }
+
+        .bg-Medium {
+            background-color:#e97c0c;
+        }
+        .bg-Low {
+            background-color:#ffc107;
+        }
+        .bg-None {
+            background-color:#919191;
+        }
+
+        /* Badge Status*/
+        .bg-Resolved {
+            background-color:#198754;
+        }
+        .bg-New {
+            background-color:#6ecf16;
+        }
+        .bg-Open {
+            background-color:#0d6efd;
+        }
+        .bg-InProgress{
+            background-color:#ffc107;
+        }
+        .bg-AddInfoReqd {
+            background-color:#0dcaf0;
+        }
+
+    </style>
 </head>
 <body>
     <main>
@@ -26,13 +60,20 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
                             <ul class="navbar-nav flex-grow-1 justify-content-start align-items-center">
+                                <li class="nav-item mx-2">
+                                </li>
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                            <li class="nav-item mx-2">
+                                            <li class="nav-item">
                                                 <h6 class="m-0 px-2">
                                                 <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                               </h6>
-                                        </li>
+                                            </li>
+                                            <li class="nav-item">
+                                                <h6 class="m-0 px-2">
+                                                <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Member" asp-action="Manage">Users</a>
+                                                </h6>
+                                            </li>
                                 }
                                 else
                                 {

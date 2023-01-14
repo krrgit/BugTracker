@@ -1,4 +1,5 @@
-﻿@using BugTracker.ViewModels;
+﻿@using BugTracker.Extensions;
+@using BugTracker.ViewModels;
 @model IEnumerable<ProjectLinkViewModel>
 @{
     ViewData["Title"] = "Projects";
@@ -13,8 +14,10 @@
                 <div class="card m-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
-                            <p class="card-text">@item.Description</p>
+                        <small><p class="card-text mb-2" style="text-align: justify;">@item.Description.Truncate(70)</p></small>
+                            <div class="align-self-end">
                         <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-primary stretched-link">View</a>
+                        </div>
                     </div>
                 </div>
             }

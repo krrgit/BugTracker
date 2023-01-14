@@ -1,0 +1,77 @@
+﻿@using BugTracker.ViewModels;
+@model ManageMembersViewModel
+@{
+    ViewData["Title"] = "Manage Users";
+}
+<h1>Manage Users</h1>
+  <div class="form-group mb-2">
+    <label for="search-input">Search:</label>
+    <input type="text" class="form-control" id="search-input" placeholder="Enter Search Term">
+  </div>
+
+<table class="table table-bordered" id="user-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+        @foreach (var user in Model.Members)
+        {
+          <tr>
+            <td>@user.FullName()</td>
+            <td>email</td>
+            <td>
+                                <select asp-for="@user.Role" class="btn-sm" id="select" onchange="SetRole('@user.Id', this.options[this.selectedIndex].id)"> 
+                        @foreach(var role in Model.Roles)
+                        {
+                                <option id="@role.Id">@role.Name</option>
+                        }
+                    </select>
+            </td>
+            <td>					
+                <form method="post" action="@Url.Action("Remove", "Member")" class="form-check-inline p-0 mx-0">
+                        <input type="hidden" name="userId" value="@user.Id"/>
+                    <button type="submit" class="btn btn-close btn-sm" class="form-check-inline p-0 mx-0" ></button>
+                </form>
+            </td>
+          </tr>
+        }
+  </tbody>
+</table>
+
+<form id="RoleForm" method="post" asp-action="SetRole">
+<input type="hidden" id="UserId" name="UserId" />
+<input type="hidden" id="RoleId" name="RoleId"/>
+</form>
+
+@section Scripts
+    {
+    // Search
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#search-input").on("keyup", function(e) {
+                e.preventDefault();
+                var searchTerm = $(this).val().toLowerCase();
+                $("#user-table tbody tr").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
+                });
+                console.log(searchTerm);
+            });
+        });
+
+    </script>
+
+    // Set Role
+    <script>
+        function SetRole(userId, roleId) {
+        const form = document.getElementById('RoleForm');
+        form["UserId"].value = userId;
+        form["RoleId"].value = roleId;
+        document.getElementById('RoleForm').submit();
+    }
+    </script>
+}

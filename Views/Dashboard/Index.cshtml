@@ -31,26 +31,26 @@
                     {
                             <input type="hidden" name="id" value="@item.Id" />
                                 <a  asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
-                            <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+                            @*<img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">*@
                             <div class="d-flex gap-2 w-100 justify-content-between">
                                 <div>
-                                    <h6 class="mb-0">
-                                        <div>
-                                            @item.Title
-                                                    <span class="badge bg-primary">@(((TicketType)item.Type).GetDescription())</span>
-                                            <span class="badge bg-info">@item.Priority</span>
-                                                            <span class="badge bg-success">@(((TicketStatus)item.Status).GetDescription())</span>
+                                    <h6 class="mb-2">
+                                        <div> 
+                                            <span class="badge bg-black">@(((TicketType)item.Type).GetDescription())</span>
+                                            <p class="h5 d-inline">@item.Title</p>
+                                            <span class="badge bg-@item.Priority.Value">@item.Priority</span>
+                                            <span class="badge bg-@item.Status.Value">@(((TicketStatus)item.Status).GetDescription())</span>
                                         </div>
                                     </h6>
-                                    <p class="mb-0 opacity-75">@item.Description</p>
+                                    <small class="mb-1 opacity-75">@item.Description.Truncate(100)</small>
                                     <div class="d-flex flex-row">
                                         @if (item.Author != null)
                                         {
-                                            <p class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</p>
+                                            <small class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</small>
                                         }
                                         else
                                         {
-                                            <p class="mx-0 mb-0 opacity-75">Posted by: </p>
+                                                        <small class="mx-0 mb-0 opacity-75">Posted by: </small>
                                         }
                                         </div>
                                 </div>
@@ -82,6 +82,9 @@
 <div class="align-self-center" id="chartBox">
     <canvas id="doughnut-chart" width="800" height="450"></canvas>
 </div>
+<hr/>
+ <a asp-controller="Project" asp-action="Create" class="btn btn-primary d-inline">Create New Project</a>
+</>
 
 @{//<canvas id="bar-chart" width="800" height="450"></canvas> 
 }

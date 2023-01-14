@@ -1,4 +1,5 @@
 ﻿using BugTracker.Data;
+using BugTracker.Extensions;
 using BugTracker.Migrations;
 using BugTracker.Models;
 using BugTracker.ViewModels;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using System.Diagnostics;
 
 
 namespace BugTracker.Controllers
@@ -140,6 +142,45 @@ namespace BugTracker.Controllers
 				return RedirectToAction("Index", "Project");
 			}
 			return View(projectVM);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			var project = await _context.Projects.FindAsync(id);
+			if (project == null) return View("Error");
+
+			var projectVM = new EditProjectViewModel()
+			{
+				Id = project.Id,
+				Title = project.Title,
+				Description = project.Description
+			};
+			return View(projectVM);
+		}
+
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(EditProjectViewModel projectVM)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(projectVM);
+			}
+
+			var project = await _context.Projects.FindAsync(projectVM.Id);
+
+			if (project == null)
+			{
+				return View(projectVM);
+			}
+
+			project.Title = projectVM.Title;
+			project.Description = projectVM.Description;
+
+			_context.Update(project);
+			_context.SaveChanges();
+			return RedirectToAction("Detail", new { id = projectVM.Id });
 		}
 	}
 

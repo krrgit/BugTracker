@@ -63,7 +63,6 @@ namespace BugTracker.Controllers
                     Id = m.Id,
                     FirstName = m.FirstName,
                     LastName = m.LastName,
-					FullName = FullName,
                     Role = role
                 };
                 teamMemberVMs.Add(memberVM);
@@ -79,6 +78,7 @@ namespace BugTracker.Controllers
 			if (ModelState.IsValid)
 			{
 				var author = await _context.Users.FindAsync(ticketVM.AuthorId);
+				var assignDev = await _context.Users.FindAsync(ticketVM.AssignedDevId);
 				var ticket = new Ticket
 				{
 					Title = ticketVM.Title,
@@ -89,8 +89,9 @@ namespace BugTracker.Controllers
 					ProjectId = ticketVM.Id,
 					CreatedAt = DateTime.Now,
 					UpdatedAt = DateTime.Now,
-					Author = author
-				};
+					Author = author,
+					AssignedDev = assignDev
+                };
 				_context.Add(ticket);
 				_context.SaveChanges();
 				return RedirectToAction("Detail", "Project", new { id = ticketVM.Id });
