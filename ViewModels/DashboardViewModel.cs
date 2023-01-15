@@ -12,7 +12,7 @@ namespace BugTracker.ViewModels
         {
             "#DD0000",
             "#FFCC00",
-            "#00FF00",
+            "#00CC00",
             "#00FFFF",
             "#0000FF",
             "#FF00FF",

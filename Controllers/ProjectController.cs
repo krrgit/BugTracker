@@ -21,9 +21,28 @@ namespace BugTracker.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			//var projects = _projectRepository.GetAll().Result.ToList();
-			//var projects = await _context.Projects.ToListAsync();
+			// Return all project for admin
+			if (User.IsInRole("admin"))
+			{
+				var projects = await _context.Projects.ToListAsync();
+				var projectsVM = new List<ProjectLinkViewModel>();
 
+				foreach (var p in projects)
+				{
+					var project = new ProjectLinkViewModel()
+					{
+						Id = p.Id,
+						Title = p.Title,
+						Description = p.Description
+					};
+
+					projectsVM.Add(project);
+				}
+
+				return View(projectsVM);
+			}
+
+			// Return projects where user is apart of team
 			return View(_projecLinkVM);
 		}
 
@@ -128,7 +147,7 @@ namespace BugTracker.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Create(CreateProjectViewModel projectVM)
+		public async Task<IActionResult> Create(CreateProjectViewModel projectVM)
 		{
 			if (ModelState.IsValid)
 			{
@@ -137,8 +156,30 @@ namespace BugTracker.Controllers
 					Title = projectVM.Title,
 					Description = projectVM.Description
 				};
-				_context.Add(project);
+
+                Member member = await _context.AppUsers.FindAsync(userId);
+
+				if (member == null)
+				{
+                    ModelState.AddModelError("", "Error getting user");
+                    return View(projectVM);
+				}
+
+
+                _context.Add(project);
 				_context.SaveChanges();
+
+
+                var projectMember = new ProjectMember()
+                {
+                    AppUserId = member.Id,
+                    AppUser = member,
+                    ProjectId = project.Id,
+                    Project = project
+                };
+
+                _context.Add(projectMember);
+                _context.SaveChanges();
 				return RedirectToAction("Index", "Project");
 			}
 			return View(projectVM);

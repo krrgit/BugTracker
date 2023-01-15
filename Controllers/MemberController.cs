@@ -1,4 +1,5 @@
 ﻿using BugTracker.Data;
+using BugTracker.Models;
 using BugTracker.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,12 @@ namespace BugTracker.Controllers
 
         public async Task<IActionResult> Manage()
         {
+            if (!User.IsInRole("admin"))
+            {
+                var model = new ErrorViewModel (){ RequestId = "Restricted Page"};
+                return View("Error", model);
+            }
+
             var members = await _context.Users.ToListAsync();
             var membersVM = new List<TeamMemberViewModel>();
             var roles = await _context.Roles.ToListAsync();

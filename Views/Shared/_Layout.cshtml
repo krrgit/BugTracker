@@ -1,6 +1,6 @@
 ﻿@using BugTracker.ViewModels;
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -69,11 +69,14 @@
                                                 <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                               </h6>
                                             </li>
-                                            <li class="nav-item">
-                                                <h6 class="m-0 px-2">
-                                                <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Member" asp-action="Manage">Users</a>
-                                                </h6>
-                                            </li>
+                                    @if(User.IsInRole("admin"))
+                                    {
+                                        <li class="nav-item">
+                                            <h6 class="m-0 px-2">
+                                            <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Member" asp-action="Manage">Users</a>
+                                            </h6>
+                                        </li> 
+                                    }
                                 }
                                 else
                                 {

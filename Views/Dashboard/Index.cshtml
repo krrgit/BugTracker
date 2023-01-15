@@ -19,7 +19,7 @@
 	<!--Header-->
     @for(int i=0;i<Model.TicketLists.Count;++i) {
     <div class="list-group mb-3">
-                <a class="list-group-item disabled">
+            <a class="list-group-item disabled">
             <div class="d-flex gap-2 w-100 justify-content-between">
                 <div>
                     <h5 class="mb-0">@Model.ProjectTitles[i]</h5>
@@ -27,51 +27,57 @@
             </div>
         </a>
         <!--Tickets List-->
-                    @foreach (var item in Model.TicketLists[i])
-                    {
-                            <input type="hidden" name="id" value="@item.Id" />
-                                <a  asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
-                            @*<img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">*@
-                            <div class="d-flex gap-2 w-100 justify-content-between">
-                                <div>
-                                    <h6 class="mb-2">
-                                        <div> 
-                                            <span class="badge bg-black">@(((TicketType)item.Type).GetDescription())</span>
-                                            <p class="h5 d-inline">@item.Title</p>
-                                            <span class="badge bg-@item.Priority.Value">@item.Priority</span>
-                                            <span class="badge bg-@item.Status.Value">@(((TicketStatus)item.Status).GetDescription())</span>
-                                        </div>
-                                    </h6>
-                                    <small class="mb-1 opacity-75">@item.Description.Truncate(100)</small>
-                                    <div class="d-flex flex-row">
-                                        @if (item.Author != null)
-                                        {
-                                            <small class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</small>
-                                        }
-                                        else
-                                        {
-                                                        <small class="mx-0 mb-0 opacity-75">Posted by: </small>
-                                        }
-                                        </div>
+        @if (Model.TicketLists[i].Count != 0) {
+            @foreach (var item in Model.TicketLists[i])
+            {
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <a  asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
+                    @*<img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">*@
+                    <div class="d-flex gap-2 w-100 justify-content-between">
+                        <div>
+                            <h6 class="mb-2">
+                                <div> 
+                                    <span class="badge bg-black">@(((TicketType)item.Type).GetDescription())</span>
+                                    <p class="h5 d-inline">@item.Title</p>
+                                    <span class="badge bg-@item.Priority.Value">@item.Priority</span>
+                                    <span class="badge bg-@item.Status.Value">@(((TicketStatus)item.Status).GetDescription())</span>
                                 </div>
-                                        <div class="d-flex align-items-end flex-column">
-                                    <div><small class="opacity-50 text-nowrap">@item.UpdatedAt</small></div>
-                                    <!-- Ticket Buttons-->
-                                        <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
-                                            <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
-                                            <input type="hidden" name="id" value="@item.Id" />
-                                            <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
-                                            </form>
-                                            <form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
-                                                <input type="hidden" name="id[0]" value="@item.Id" />
-                                                <input type="hidden" name="id[1]" value="@item.ProjectId" />
-                                                <input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
-                                            </form>
-                                    </div>
+                            </h6>
+                            <small class="mb-1 opacity-75">@item.Description.Truncate(100)</small>
+                            <div class="d-flex flex-row">
+                                @if (item.Author != null)
+                                {
+                                    <small class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</small>
+                                }
+                                else
+                                {
+                                                <small class="mx-0 mb-0 opacity-75">Posted by: </small>
+                                }
                                 </div>
+                        </div>
+                        <div class="d-flex align-items-end flex-column">
+                            <div><small class="opacity-50 text-nowrap">@item.UpdatedAt</small></div>
+                            <!-- Ticket Buttons-->
+                                <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
+                                    <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+                                    </form>
+                                    <form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
+                                        <input type="hidden" name="id[0]" value="@item.Id" />
+                                        <input type="hidden" name="id[1]" value="@item.ProjectId" />
+                                        <input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
+                                    </form>
                             </div>
-                        </a>
-                    }
+                        </div>
+                    </div>
+                </a>
+                }
+
+            } else
+            {
+                <div class="opacity-75 list-group-item disabled list-group-item-action d-flex gap-3 py-2">You have no assigned tickets.</div>
+            }
         </div>
         }
 </div>
@@ -83,8 +89,10 @@
     <canvas id="doughnut-chart" width="800" height="450"></canvas>
 </div>
 <hr/>
- <a asp-controller="Project" asp-action="Create" class="btn btn-primary d-inline">Create New Project</a>
-</>
+@if (User.IsInRole("admin") || User.IsInRole("manager"))
+{
+    <a asp-controller="Project" asp-action="Create" class="btn btn-primary d-inline">Create New Project</a>
+}
 
 @{//<canvas id="bar-chart" width="800" height="450"></canvas> 
 }
@@ -187,7 +195,11 @@
                         }
                     });
 
-                    var percentage = (100 * resolved/total).toFixed(0);
+                    var percentage = 0;
+
+                    if (total != 0) {
+                        percentage = (100 * resolved/total).toFixed(0);
+                    }
 
                     // Draw Percentage
                     var width = chart.width,

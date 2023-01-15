@@ -53,10 +53,10 @@ namespace BugTracker.Controllers
                 dashboardVM.TicketLists.Add(userTickets);
 
                 // Add to list if it has tickets
+                dashboardVM.ProjectProgress.Add(progress);
+                dashboardVM.ProjectTitles.Add(project.Title);
                 if (addToList)
                 {
-                    dashboardVM.ProjectProgress.Add(progress);
-                    dashboardVM.ProjectTitles.Add(project.Title);
                 }
             }
 
