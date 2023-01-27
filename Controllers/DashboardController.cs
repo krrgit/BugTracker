@@ -26,9 +26,13 @@ namespace BugTracker.Controllers
             foreach (var project in _projecLinkVM)
             {
                 var tickets = await _context.Tickets.Include(t => t.AssignedDev).Where(t => t.ProjectId == project.Id && t.AssignedDev.Id == userId).ToListAsync();
+				
+                // Sort by Last Updated Date; latest = first
+                tickets.OrderBy(t => t.UpdatedAt);
+				tickets.Reverse();
 
-                // Used to display the progress of a project
-                var progress = new int[5];
+				// Used to display the progress of a project
+				var progress = new int[5];
                 bool addToList = false;
 
                 // Get a list of tickets of this project assigned to this user

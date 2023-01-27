@@ -9,7 +9,7 @@
     <input type="text" class="form-control" id="search-input" placeholder="Enter Search Term">
   </div>
 
-<table class="table table-bordered" id="user-table">
+<table class="table table-bordered bg-dark3 text-white" id="user-table">
   <thead>
     <tr>
       <th>Name</th>
@@ -23,9 +23,9 @@
         {
           <tr>
             <td>@user.FullName()</td>
-            <td>email</td>
+                <td>@user.Email</td>
             <td>
-                                <select asp-for="@user.Role" class="btn-sm" id="select" onchange="SetRole('@user.Id', this.options[this.selectedIndex].id)"> 
+                     <select asp-for="@user.Role" class="btn-sm" id="select" onchange="SetRole('@user.Id', this.options[this.selectedIndex].id)"> 
                         @foreach(var role in Model.Roles)
                         {
                                 <option id="@role.Id">@role.Name</option>
@@ -35,7 +35,7 @@
             <td>					
                 <form method="post" action="@Url.Action("Remove", "Member")" class="form-check-inline p-0 mx-0">
                         <input type="hidden" name="userId" value="@user.Id"/>
-                    <button type="submit" class="btn btn-close btn-sm" class="form-check-inline p-0 mx-0" ></button>
+                        <button type="submit" class="btn-close btn-close-white btn-sm" class="form-check-inline p-0 mx-0" ></button>
                 </form>
             </td>
           </tr>
@@ -50,8 +50,8 @@
 
 @section Scripts
     {
-    // Search
     <script type="text/javascript">
+    // Search
         $(document).ready(function(){
             $("#search-input").on("keyup", function(e) {
                 e.preventDefault();
@@ -65,8 +65,8 @@
 
     </script>
 
-    // Set Role
     <script>
+    // Set Role
         function SetRole(userId, roleId) {
         const form = document.getElementById('RoleForm');
         form["UserId"].value = userId;

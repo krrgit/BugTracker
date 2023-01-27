@@ -14,5 +14,140 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    color: #fff;
+    background-color: #0e0e10;
+}
+
+.bg-dark1 {
+    background-color: #0e0e10;
+}
+
+.bg-dark2 {
+    background-color: #18181b;
+}
+
+.bg-dark3 {
+    background-color: #1f1f23;
+}
+
+.dash-border {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #555;
+}
+
+.nav-border {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #000;
+}
+
+.list-group-item {
+    color: #fff;
+    background-color: #18181b;
+    border: 1px solid rgba(255,255,255,.125);
+}
+
+.list-group-item-action:focus, .list-group-item-action:hover {
+    color: #fff;
+    background-color: #1f1f23;
+}
+
+.list-group-item.disabled, .list-group-item.disabled {
+    color: #fff;
+    background-color: #18181b;
+}
+
+a {
+    color: #a7a7a7;
+    text-decoration: underline;
+}
+
+.form-control,
+.form-control:focus,
+.card,
+.modal-content{
+    color: #ccc;
+    background-color: #18181b;
+    border: 1px solid #555;
+}
+
+select {
+    color: #ccc;
+    background-color: #18181b;
+    border: 1px solid #555;
+}
+
+.modal-header {
+    border-bottom: 1px solid #555;
+}
+.modal-footer {
+    border-top: 1px solid #555;
+}
+
+.table-bordered {
+    border-color: #555;
+}
+
+.proj-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #F3F3F3;
+    position: relative;
+}
+
+.proj-initial {
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.dropdown-menu {
+    color: #ccc;
+    background-color: #1f1f23;
+}
+
+/* Badge Priority*/
+.bg-High {
+    background-color: #dc3545;
+}
+
+.bg-Medium {
+    background-color: #e97c0c;
+}
+
+.bg-Low {
+    background-color: #ffc107;
+}
+
+.bg-None {
+    background-color: #4a4a4a;
+}
+
+/* Badge Status*/
+.bg-Resolved {
+    background-color: #198754;
+}
+
+.bg-New {
+    background-color: #6ecf16;
+}
+
+.bg-Open {
+    background-color: #0d6efd;
+}
+
+.bg-InProgress {
+    background-color: #ffc107;
+}
+
+.bg-AddInfoReqd {
+    background-color: #0dcaf0;
 }

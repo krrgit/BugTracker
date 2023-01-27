@@ -42,6 +42,7 @@ namespace BugTracker.Controllers
                     Id = m.Id,
                     FirstName = m.FirstName,
                     LastName = m.LastName,
+                    Email = m.Email,
                     Role = role
                 };
                 membersVM.Add(member);

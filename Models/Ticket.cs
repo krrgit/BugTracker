@@ -18,8 +18,8 @@ namespace BugTracker.Models
 		[ForeignKey("Project")]
 		public int ProjectId { get; set; }
 
-		public DateTime? CreatedAt { get; set; }
-		public DateTime? UpdatedAt { get; set; }
+		public DateTime CreatedAt { get; set; }
+		public DateTime UpdatedAt { get; set; }
 
 	}
 }

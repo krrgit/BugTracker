@@ -77,6 +77,8 @@ namespace BugTracker.Controllers
 
             var newUser = new Member()
             {
+                FirstName = registerVM.FirstName,
+                LastName = registerVM.LastName,
                 Email = registerVM.EmailAddress,
                 UserName = registerVM.EmailAddress,
             };
@@ -87,7 +89,7 @@ namespace BugTracker.Controllers
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Submitter);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

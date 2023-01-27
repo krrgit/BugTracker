@@ -9,47 +9,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BugTracker.styles.css" asp-append-version="true" />
-    <style>
-        /* Badge Priority*/
-        .bg-High {
-            background-color:#dc3545;
-        }
-
-        .bg-Medium {
-            background-color:#e97c0c;
-        }
-        .bg-Low {
-            background-color:#ffc107;
-        }
-        .bg-None {
-            background-color:#919191;
-        }
-
-        /* Badge Status*/
-        .bg-Resolved {
-            background-color:#198754;
-        }
-        .bg-New {
-            background-color:#6ecf16;
-        }
-        .bg-Open {
-            background-color:#0d6efd;
-        }
-        .bg-InProgress{
-            background-color:#ffc107;
-        }
-        .bg-AddInfoReqd {
-            background-color:#0dcaf0;
-        }
-
-    </style>
 </head>
 <body>
     <main>
-        <div class="h-100 w-100 position-absolute">
+        <div class="h-100 w-100 position-absolutetext-white">
             <!-- Header -->
             <header class="sticky-top">
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light nav-border mb-0 bg-dark3">
                     <div class="container-fluid px-2">
                         <!-- Logo -->
                         <div class="d-flex flex-column text-center">
@@ -66,25 +32,25 @@
                                 {
                                             <li class="nav-item">
                                                 <h6 class="m-0 px-2">
-                                                <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                                <a class="nav-link text-white align-items-center" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                               </h6>
                                             </li>
                                     @if(User.IsInRole("admin"))
                                     {
                                         <li class="nav-item">
                                             <h6 class="m-0 px-2">
-                                            <a class="nav-link text-dark align-items-center" asp-area="" asp-controller="Member" asp-action="Manage">Users</a>
+                                                    <a class="nav-link text-white align-items-center" asp-area="" asp-controller="Member" asp-action="Manage">Users</a>
                                             </h6>
                                         </li> 
                                     }
                                 }
                                 else
                                 {
-                                                <li class="nav-item">
-                                                <h6 class="m-0 px-2">
-                                                    <div class="nav-link text-dark align-items-center">BugTracker</div>
-                                                  </h6>
-                                                </li>
+                                    <li class="nav-item">
+                                    <h6 class="m-0 px-2">
+                                        <div class="nav-link text-dark align-items-center">BugTracker</div>
+                                        </h6>
+                                    </li>
                                 }
                                     </ul>
                             <ul class="navbar-nav flex-grow-1 justify-content-end align-items-center">
@@ -111,11 +77,11 @@
                     </div>
                 </nav>
                 <div class="d-flex flex-row h-100 fixed-top" style="margin-top:60px; width:60px;">
-            <aside class="d-flex flex-column bg-light">
+            <aside class="d-flex flex-column bg-dark2">
                 <!-- Dashboard -->
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="d-flex flex-column m-2 mb-0 pb-2 border-bottom text-center">
+                                <div class="d-flex flex-column m-2 mb-0 pb-2 dash-border text-center" style="width:40px;"> 
                                 <div class="nav-item" role="button" data-toggle="tooltip" data-bs-placement="right" title="Dashboard" width="40" height="40" >
                                     <a asp-controller="Dashboard" asp-action="Index">
                                                 <div class="bg-secondary rounded-circle d-flex align-items-center" style="height:40px">
@@ -137,9 +103,14 @@
                                 {
                                     @foreach (var item in projectList)
                                     {
-                                            <div class="nav-item m-2 mb-0" role="button">
-                                            <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id"><img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle m-0 p-0 flex-shrink-0"  data-toggle="tooltip" data-bs-placement="right" title="@item.Title"></a>
+                                        <div class="nav-item m-2 mb-0" role="button">
+                                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@item.Id">
+                                            <div class="proj-icon" data-toggle="tooltip" data-bs-placement="right" title="@item.Title">
+                                                <div class="proj-initial">@item.Title[0]</div>
                                             </div>
+                                            @*<img src="https://github.com/twbs.png" width="40" height="40" class="rounded-circle m-0 p-0 flex-shrink-0"  data-toggle="tooltip" data-bs-placement="right" title="@item.Title">*@
+                                        </a>
+                                        </div>
                                     }
 
                                 }
@@ -150,9 +121,9 @@
             </header>
             
         <div class="d-flex flex-row h-100">
-            <aside class="d-flex flex-column bg-light" style="width:60px;">
+            <aside class="d-flex flex-column bg-dark3" style="width:50px;">
                 </aside>
-        <aside class="container-fluid p-0">
+        <aside class="container-fluid p-0 ">
             <!-- Body -->
             <div class="container">
                     <br />

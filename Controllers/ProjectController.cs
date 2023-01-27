@@ -53,6 +53,7 @@ namespace BugTracker.Controllers
 			Console.WriteLine("Project ID:" + id);
 
 			var tickets = await _context.Tickets.Where(t => t.ProjectId == id).ToListAsync();
+			tickets.OrderBy(t => t.UpdatedAt);
 			tickets.Reverse();
 
 			var members = await _context.AppUsers

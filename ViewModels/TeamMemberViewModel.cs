@@ -9,6 +9,6 @@ namespace BugTracker.ViewModels
         public string LastName { get; set; }
         public string FullName() { return FirstName + " " + LastName; }
         public string Role { get; set; }
-
+        public string Email { get; set; }
     }
 }

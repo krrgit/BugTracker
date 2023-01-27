@@ -5,6 +5,33 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+@{
+    string ToTimeFromNow(DateTime dateTime)
+    {
+        TimeSpan timeFromNow = DateTime.Now - dateTime;
+        string value;
+
+        if (timeFromNow.TotalMinutes < 60)
+        {
+            value = string.Format("{0}m", (int)timeFromNow.TotalMinutes);
+        }
+        else if (timeFromNow.TotalHours < 24)
+        {
+            value = string.Format("{0}h", (int)timeFromNow.TotalHours);
+        }
+        else if (timeFromNow.TotalDays < 7)
+        {
+            value = string.Format("{0}d", (int)timeFromNow.TotalDays);
+        }
+        else
+        {
+            value = string.Format("{0}w", (int)timeFromNow.TotalDays / 7);
+        }
+
+        return value;
+    }
+}
+
 <div class="d-flex flex-column">
 <div>
 <h2>Dashboard</h2>
@@ -37,14 +64,14 @@
                         <div>
                             <h6 class="mb-2">
                                 <div> 
-                                    <span class="badge bg-black">@(((TicketType)item.Type).GetDescription())</span>
+                                    <span class="badge bg-secondary">@(((TicketType)item.Type).GetDescription())</span>
                                     <p class="h5 d-inline">@item.Title</p>
                                     <span class="badge bg-@item.Priority.Value">@item.Priority</span>
                                     <span class="badge bg-@item.Status.Value">@(((TicketStatus)item.Status).GetDescription())</span>
                                 </div>
                             </h6>
                             <small class="mb-1 opacity-75">@item.Description.Truncate(100)</small>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-row mt-1">
                                 @if (item.Author != null)
                                 {
                                     <small class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</small>
@@ -56,17 +83,17 @@
                                 </div>
                         </div>
                         <div class="d-flex align-items-end flex-column">
-                            <div><small class="opacity-50 text-nowrap">@item.UpdatedAt</small></div>
+                                        <div><small class="opacity-50 text-nowrap">@ToTimeFromNow(@item.UpdatedAt)</small></div>
                             <!-- Ticket Buttons-->
                                 <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
                                     <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
                                     <input type="hidden" name="id" value="@item.Id" />
-                                    <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+                                    <input type="submit" class="btn btn-outline-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
                                     </form>
                                     <form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
                                         <input type="hidden" name="id[0]" value="@item.Id" />
                                         <input type="hidden" name="id[1]" value="@item.ProjectId" />
-                                        <input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
+                                        <input type="submit" class="btn btn-outline-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
                                     </form>
                             </div>
                         </div>
@@ -124,18 +151,14 @@
     #customLegend ul li p {
         margin: 0;
         padding: 0;
-        color: rgba(102,102,102,1);
+        color: rgba(180,180,180,1);
     }
 
     #customLegend ul li.dim p {
         margin: 0;
         padding: 0;
-        color: rgba(102,102,102,0.5);
+        color: rgba(180,180,180,0.5);
     }
-
-
-
-
 </style>
 
 @section Scripts
@@ -145,6 +168,7 @@
 
 <script>
     $(document).ready(function() {
+
         // Doughnut Chart
         const myChart = new Chart(document.getElementById("doughnut-chart"), {
             type: 'doughnut',
@@ -158,7 +182,9 @@
                         <text>
                         {
                             label: 'Tickets',
-                                    backgroundColor: ['@Model.ProjectColors[i]', '#f3f3f3','#f3f3f3','#f3f3f3', '#f3f3f3'],
+                            backgroundColor: ['@Model.ProjectColors[i]', '#1f1f23','#1f1f23','#1f1f23', '#1f1f23'],
+                            borderColor: '#555555',
+                            color: '#ffffff',
                             data: [@item[0], @item[1], @item[2], @item[3], @item[4]],
                             hidden: false,
                         },
@@ -215,13 +241,13 @@
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
                     textY = height * 1.15 / 2;
 
-                    ctx.fillStyle = "#000000";
+                    ctx.fillStyle = "#cccccc";
 
                     ctx.fillText(text, textX, textY);
                     ctx.save();
 
                     // Draw numer / denom
-                    ctx.fillStyle = "#666666";
+                    ctx.fillStyle = "#777777";
                     fontSize = (height / 275).toFixed(2);
                     ctx.font = "525 " + fontSize + "em sans-serif";
                     text = resolved + "/" + total;
@@ -232,7 +258,7 @@
                     ctx.save();
 
                     // Draw Resolved
-                    ctx.fillStyle = "#000000";
+                    ctx.fillStyle = "#cccccc";
                     fontSize = (height / 350).toFixed(2);
                     ctx.font = "550 " + fontSize + "em sans-serif";
                     text = "Resolved";
@@ -312,7 +338,9 @@
             myChart.update();
         }
 
-        GenerateLegend();
+        @if (Model.ProjectProgress.Count > 0) {
+            <text>GenerateLegend();</text>
+        }
     });
 </script>
 

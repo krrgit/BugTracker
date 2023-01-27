@@ -5,6 +5,33 @@
 @{
 	ViewData["Title"] = Model.Title;
 }
+
+@{
+	string ToTimeFromNow(DateTime dateTime)
+	{
+		TimeSpan timeFromNow = DateTime.Now - dateTime;
+		string value;
+
+		if (timeFromNow.TotalMinutes < 60)
+		{
+			value = string.Format("{0}m", (int)timeFromNow.TotalMinutes);
+		}
+		else if (timeFromNow.TotalHours < 24)
+		{
+			value = string.Format("{0}h", (int)timeFromNow.TotalHours);
+		}
+		else if (timeFromNow.TotalDays < 7)
+		{
+			value = string.Format("{0}d", (int)timeFromNow.TotalDays);
+		} else
+		{
+			value = string.Format("{0}w", (int)timeFromNow.TotalDays / 7);
+		}
+
+		return value;
+	}
+}
+
 <div class="d-flex flex-column">
 <div>
 
@@ -31,6 +58,7 @@
 	<li class="list-group-item">
 		<div class="d-flex gap-2 w-100 justify-content-end">
 			<div>
+				<!-- Status Sort-->
 				<div class="dropdown">
 					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 					by Status:
@@ -68,12 +96,11 @@
 					{
 						<input type="hidden" name="id" value="@item.Id" />
 						<a asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="ticket list-group-item list-group-item-action gap-3 py-2" aria-current="true">
-							@*<img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">*@
 							<div class="d-flex gap-2 w-100 justify-content-between">
 								<div>
 									<h6 class="mb-2">
 										<div> 
-											<span class="badge bg-black">@(
+													<span class="badge bg-secondary">@(
 										((TicketType)item.Type).GetDescription()
 										)</span>
 											<p class="h5 d-inline">@item.Title</p>
@@ -84,7 +111,7 @@
 										</div>
 									</h6>
 									<small class="mb-1 opacity-75">@item.Description.Truncate(100)</small>
-									<div class="d-flex flex-row">
+											<div class="d-flex flex-row mt-1">
 										@if (item.AssignedDev != null)
 										{
 											<small class="mb-0 opacity-75">Assigned to: @item.AssignedDev.FullName()</small>
@@ -104,7 +131,7 @@
 									</div>
 								</div>
 								<div class="d-flex align-items-end flex-column">
-									<div><small class="opacity-50 text-nowrap">@item.UpdatedAt</small></div>
+											<div><small class="opacity-50 text-nowrap">@ToTimeFromNow(item.UpdatedAt)</small></div>
 									<!-- Ticket Buttons-->
 									@if (User.IsInRole("admin") || User.IsInRole("manager"))
 									{
@@ -148,7 +175,7 @@
 					<form method="post" action="@Url.Action("Remove", "ProjectMember")" class="form-check-inline p-0 mx-0">
 							<input type="hidden" name="appUserId" value="@item.Id" />
 								<input type="hidden" name="projectId" value="@Model.Id" />
-							<button type="submit" class="btn btn-close btn-sm" class="form-check-inline p-0 mx-0"></button>
+									<button type="submit" class="btn-close btn-close-white btn-sm" class="form-check-inline p-0 mx-0"></button>
 					</form>
 			</div>
 			}	
@@ -162,11 +189,6 @@
 		<div>
 			<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#memberModal"><b>+</b> Member</button>
 		</div>
-		<div>
-			<form method="get" action="@Url.Action("Manage", "ProjectMember")" class="form-check-inline p-0 mx-0">
-				<button type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0">Manage</button>
-			</form>
-		</div>
 	</div>
 }
 
@@ -179,7 +201,7 @@
 	<div class="modal-content">
 	  <div class="modal-header">
 		<h5 class="modal-title" id="memberModalLabel">Add Member(s)</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 	  </div>
 	  <form method="post" action="@Url.Action("Add", "ProjectMember")" enctype="multipart/form-data">
 		  <input type="hidden" asp-for="@Model.Id"/>
@@ -214,8 +236,8 @@
 
 @section Scripts
 {
-	// Modal Search
 	<script type="text/javascript">
+		// Modal Search
 		$(document).ready(function(){
 			$("#listSearch").on("keyup", function() {
 				var value = $(this).val().toLowerCase();
@@ -226,9 +248,8 @@
 		});
 	</script>
 
-	// Filter Tickets
 	<script>
-
+		// Filter Tickets
 		function filterStatus() {
 			var displayNew = document.getElementById('newCheckbox').checked;
 			var displayOpen = document.getElementById('openCheckbox').checked;

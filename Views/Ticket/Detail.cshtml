@@ -5,6 +5,33 @@
 @{
     ViewData["Title"] = @Model.Title;
 }
+@{
+    string ToTimeFromNow(DateTime dateTime)
+    {
+        TimeSpan timeFromNow = DateTime.Now - dateTime;
+        string value;
+
+        if (timeFromNow.TotalMinutes < 60)
+        {
+            value = string.Format("{0}m", (int)timeFromNow.TotalMinutes);
+        }
+        else if (timeFromNow.TotalHours < 24)
+        {
+            value = string.Format("{0}h", (int)timeFromNow.TotalHours);
+        }
+        else if (timeFromNow.TotalDays < 7)
+        {
+            value = string.Format("{0}d", (int)timeFromNow.TotalDays);
+        }
+        else
+        {
+            value = string.Format("{0}w", (int)timeFromNow.TotalDays / 7);
+        }
+
+        return value;
+    }
+}
+
 
 <div class="row d-flex justify-content-center">
     <div class="list-group mb-2 col-md-8">
@@ -16,13 +43,13 @@
                     {
                             <p class="m-0 py-0 px-1">@Model.Author.FullName()</p>
                     }</small></div>
-            <div class="opacity-75"><small>Created: @Model.CreatedAt</small></div>
+            <div class="opacity-75"><small>@ToTimeFromNow(@Model.CreatedAt)</small></div>
         </div>
         <!-- Body -->
         <div class="list-group-item d-flex flex-column">
-            <h4 class="pt-2 pb-0 m-0">@Model.Title</h4>
+            <h4 class="pt-2 pb-1 m-0">@Model.Title</h4>
             <div class="d-flex gap-2 pb-3">
-                <span class="badge bg-black">@(((TicketType)Model.Type).GetDescription())</span>
+                <span class="badge bg-secondary">@(((TicketType)Model.Type).GetDescription())</span>
                 <span class="badge bg-@Model.Priority.Value">@Model.Priority</span>
                 <span class="badge bg-@Model.Status.Value">@(((TicketStatus)Model.Status).GetDescription())</span>
             </div>
@@ -41,7 +68,8 @@
                     </small>
                 </div>
             </div>
-            <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
+            <div class="btn-group justify-content-end align-items-center" role="group" aria-label="Basic example">
+                <small class="opacity-75 m-0 py-0 px-1">Created: @Model.CreatedAt</small>
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Mark As...
