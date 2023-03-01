@@ -87,6 +87,10 @@ namespace BugTracker.Controllers
             if (newUserResponse.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.Submitter);
+            } else
+            {
+                TempData["Error"] = "failed to make user";
+                return View(registerVM);
             }
 
             return RedirectToAction("Index", "Home");

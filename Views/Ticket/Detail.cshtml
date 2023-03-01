@@ -68,28 +68,34 @@
                     </small>
                 </div>
             </div>
+                
             <div class="btn-group justify-content-end align-items-center" role="group" aria-label="Basic example">
                 <small class="opacity-75 m-0 py-0 px-1">Created: @Model.CreatedAt</small>
-                <div class="dropdown">
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    Mark As...
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >  
-                        @foreach (var item in Html.GetEnumSelectList<TicketStatus>())
-                        {
-                            <li><button class="dropdown-item" onclick="setStatus('@item.Value')" id="btnSubmit">@item.Text</button></li>
-                        }
-                    </ul>
-                </div>
-                <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
-                    <input type="hidden" name="id" value="@Model.Id" />
-                    <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
+                @if (User.IsInRole("admin") || User.IsInRole("manager") ||
+           (User.IsInRole("submitter") && @Model.Author.Id == User.GetUserId()) ||
+           (User.IsInRole("developer") && @Model.AssignedDev.Id == User.GetUserId()))
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mark As...
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >  
+                            @foreach (var item in Html.GetEnumSelectList<TicketStatus>())
+                            {
+                                <li><button class="dropdown-item" onclick="setStatus('@item.Value')" id="btnSubmit">@item.Text</button></li>
+                            }
+                        </ul>
+                    </div>
+                    <form method="get" action="@Url.Action("Edit", "Ticket")" class="form-check-inline p-0 mx-0">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="submit" class="btn btn-secondary btn-sm" class="form-check-inline p-0 mx-0" value="Edit">
                     </form>
                     <form method="get" action="@Url.Action("Delete", "Ticket")" class="form-check-inline p-0 mx-0">
                         <input type="hidden" name="id[0]" value="@Model.Id" />
                         <input type="hidden" name="id[1]" value="@Model.Id" />
                         <input type="submit" class="btn btn-danger btn-sm" class="form-check-inline p-0 mx-0" value="Delete">
                     </form>
+                }
             </div>
         </div>
     </div>

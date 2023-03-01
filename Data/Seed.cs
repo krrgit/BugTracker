@@ -116,7 +116,7 @@ namespace BugTracker.Data
 
 				// Submitter
 				{
-					string appUserEmail = "submitter@etickets.com";
+					string appUserEmail = "submitter@demo.com";
 
 					var appUser = await userManager.FindByEmailAsync(appUserEmail);
 					if (appUser == null)
@@ -124,8 +124,8 @@ namespace BugTracker.Data
 						var newAppUser = new Member()
 						{
 							UserName = "submitter",
-							FirstName = "John",
-							LastName = "Doe",
+							FirstName = "Submitter",
+							LastName = "Demo",
 							Email = appUserEmail,
 							EmailConfirmed = true,
 						};
@@ -136,7 +136,7 @@ namespace BugTracker.Data
 
 				// Developer
 				{
-					string appUserEmail = "developer@etickets.com";
+					string appUserEmail = "developer@demo.com";
 
 					var appUser = await userManager.FindByEmailAsync(appUserEmail);
 					if (appUser == null)
@@ -144,8 +144,8 @@ namespace BugTracker.Data
 						var newAppUser = new Member()
 						{
 							UserName = "developer",
-							FirstName = "John",
-							LastName = "Appleseed",
+							FirstName = "Developer",
+							LastName = "Demo",
 							Email = appUserEmail,
 							EmailConfirmed = true,
 						};
@@ -156,16 +156,16 @@ namespace BugTracker.Data
 
 				// ProjectManager
 				{
-					string appUserEmail = "projectmanager@etickets.com";
+					string appUserEmail = "manager@demo.com";
 
 					var appUser = await userManager.FindByEmailAsync(appUserEmail);
 					if (appUser == null)
 					{
 						var newAppUser = new Member()
 						{
-							UserName = "projectmanager",
-							FirstName = "Joe",
-							LastName = "Smith",
+							UserName = "manager",
+							FirstName = "Manager",
+							LastName = "Demo",
 							Email = appUserEmail,
 							EmailConfirmed = true,
 						};

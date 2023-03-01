@@ -25,18 +25,27 @@
             <td>@user.FullName()</td>
                 <td>@user.Email</td>
             <td>
-                     <select asp-for="@user.Role" class="btn-sm" id="select" onchange="SetRole('@user.Id', this.options[this.selectedIndex].id)"> 
-                        @foreach(var role in Model.Roles)
-                        {
-                                <option id="@role.Id">@role.Name</option>
-                        }
-                    </select>
-            </td>
-            <td>					
-                <form method="post" action="@Url.Action("Remove", "Member")" class="form-check-inline p-0 mx-0">
-                        <input type="hidden" name="userId" value="@user.Id"/>
-                        <button type="submit" class="btn-close btn-close-white btn-sm" class="form-check-inline p-0 mx-0" ></button>
-                </form>
+                    @if (@user.FullName() != "Kevin Ramos")
+                    {
+                        <select asp-for="@user.Role" class="btn-sm" id="select" onchange="SetRole('@user.Id', this.options[this.selectedIndex].id)"> 
+                            @foreach(var role in Model.Roles)
+                            {
+                                    <option id="@role.Id">@role.Name</option>
+                            }
+                        </select>
+                    } else
+                    {
+                        <small class="px-2">admin</small>
+                    }
+                </td>
+            <td>
+                    @if (@user.FullName() != "Kevin Ramos")
+                {
+                    <form method="post" action="@Url.Action("Remove", "Member")" class="form-check-inline p-0 mx-0">
+                            <input type="hidden" name="userId" value="@user.Id"/>
+                            <button type="submit" class="btn-close btn-close-white btn-sm" class="form-check-inline p-0 mx-0" ></button>
+                    </form>
+                }
             </td>
           </tr>
         }

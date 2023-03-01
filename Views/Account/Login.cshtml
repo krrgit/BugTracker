@@ -42,7 +42,40 @@
                     <div class="col-11">
                         <hr/>
                         <a type="button" class="btn btn-danger my-2" style="width:100%;" asp-controller="Account" asp-action="Register">Sign Up</a>
-                        <button type="button" class="btn btn-secondary mb-2" style="width:100%;">Demo</button>
+                        <hr />
+
+                        <div class="row px-2 pt-2">
+                            <div class="col px-1 ">
+                            <form asp-action="Login">
+                                    <input asp-for="EmailAddress" class="form-control" type="hidden" value="admin@demo.com">
+                                <input asp-for="Password" class="form-control" type="hidden" value="Coding@1234?">
+                                <input class="btn btn-secondary mb-2" style="width:100%;" type="submit" value="Demo Admin">
+                            </form>
+                            </div>
+                            <div class="col px-1">
+                            <form asp-action="Login">
+                                    <input asp-for="EmailAddress" class="form-control" type="hidden" value="manager@demo.com">
+                                <input asp-for="Password" class="form-control" type="hidden" value="Coding@1234?">
+                                <input class="btn btn-secondary mb-2" style="width:100%;" type="submit" value="Demo Manager">
+                            </form>
+                            </div>
+                        </div>
+                        <div class="row px-2">
+                            <div class="col px-1">
+                            <form asp-action="Login">
+                                    <input asp-for="EmailAddress" class="form-control" type="hidden" value="developer@demo.com">
+                                <input asp-for="Password" class="form-control" type="hidden" value="Coding@1234?">
+                                <input class="btn btn-secondary mb-2" style="width:100%;" type="submit" value="Demo Developer">
+                            </form>
+                            </div>
+                            <div class="col px-1">
+                            <form asp-action="Login">
+                                    <input asp-for="EmailAddress" class="form-control" type="hidden" value="submitter@demo.com">
+                                <input asp-for="Password" class="form-control" type="hidden" value="Coding@1234?">
+                                <input class="btn btn-secondary mb-2" style="width:100%;" type="submit" value="Demo Submitter">
+                            </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

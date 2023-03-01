@@ -72,15 +72,29 @@
                             </h6>
                             <small class="mb-1 opacity-75">@item.Description.Truncate(100)</small>
                             <div class="d-flex flex-row mt-1">
-                                @if (item.Author != null)
+                                @if (User.IsInRole("submitter"))
                                 {
-                                    <small class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</small>
+                                    if (item.AssignedDev != null)
+                                    {
+                                        <small class="mx-0 mb-0 opacity-75">Assigned to: @item.AssignedDev.FullName() </small>
+                                    }
+                                    else
+                                    {
+                                        <small class="mx-0 mb-0 opacity-75">Assigned to: </small>
+                                    } 
                                 }
                                 else
-                                {
-                                                <small class="mx-0 mb-0 opacity-75">Posted by: </small>
+                                {            
+                                 if (item.Author != null)
+                                    {
+                                        <small class="mx-0 mb-0 opacity-75">Posted by: @item.Author.FullName()</small>
+                                    }
+                                    else
+                                    {
+                                        <small class="mx-0 mb-0 opacity-75">Posted by: </small>
+                                    }
                                 }
-                                </div>
+                            </div>
                         </div>
                         <div class="d-flex align-items-end flex-column">
                                         <div><small class="opacity-50 text-nowrap">@ToTimeFromNow(@item.UpdatedAt)</small></div>
@@ -175,21 +189,41 @@
             data: {
               labels: ["Resolved", "New", "Open", "In Progress", "Additional Info Required"],
               datasets: [
-                    @for (int i=0;i<Model.ProjectProgress.Count;++i)
+                    @if (Model.TicketLists.Count == 0)
                     {
-                        var item = Model.ProjectProgress[i];
-                        var isHidden = i == 0 ? "true" : "false";
+                        
                         <text>
-                        {
-                            label: 'Tickets',
-                            backgroundColor: ['@Model.ProjectColors[i]', '#1f1f23','#1f1f23','#1f1f23', '#1f1f23'],
-                            borderColor: '#555555',
-                            color: '#ffffff',
-                            data: [@item[0], @item[1], @item[2], @item[3], @item[4]],
-                            hidden: false,
-                        },
+                            {
+                                label: 'Tickets',
+                                backgroundColor: ['#1f1f23', '#1f1f23', '#1f1f23', '#1f1f23', '#1f1f23'],
+                                borderColor: '#555555',
+                                color: '#ffffff',
+                                data: [0,0,0,0,0],
+                                hidden: false,
+                            },
                         </text>
+                        
                     }
+                    else
+                    {
+                        @for (int i = 0; i < Model.ProjectProgress.Count; ++i)
+                        {
+                            var item = Model.ProjectProgress[i];
+                            var isHidden = i == 0 ? "true" : "false";
+                            <text>
+                                            {
+                                                label: 'Tickets',
+                                                backgroundColor: ['@Model.ProjectColors[i]', '#1f1f23', '#1f1f23', '#1f1f23', '#1f1f23'],
+                                                borderColor: '#555555',
+                                                color: '#ffffff',
+                                                data: [@item[0], @item[1], @item[2], @item[3], @item[4]],
+                                                hidden: false,
+                                            },
+                            </text>
+                        }
+                    }
+
+
               ]
             },
             options: {
@@ -198,6 +232,12 @@
                 },
                 legend: {
                     display: false
+                 },
+                 tooltips: {
+                    enabled: false
+                 },
+                 hover: {
+                    mode:null  
                  },
               title: {
                 display: false,
@@ -223,8 +263,11 @@
 
                     var percentage = 0;
 
-                    if (total != 0) {
+                    @if (Model.TicketLists.Count != 0)
+                    {
+                        <text>
                         percentage = (100 * resolved/total).toFixed(0);
+                        </text>
                     }
 
                     // Draw Percentage
@@ -250,7 +293,13 @@
                     ctx.fillStyle = "#777777";
                     fontSize = (height / 275).toFixed(2);
                     ctx.font = "525 " + fontSize + "em sans-serif";
-                    text = resolved + "/" + total;
+                    text = "0/0";
+                    @if (Model.TicketLists.Count != 0)
+                    {
+                        <text>
+                        text = resolved + "/" + total;
+                        </text>
+                    }
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
                     textY = height * 1.33 / 2;
 

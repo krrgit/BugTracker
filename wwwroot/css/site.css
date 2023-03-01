@@ -114,6 +114,11 @@ select {
     background-color: #1f1f23;
 }
 
+.dropdown-item {
+    color: #ccc;
+    background-color: #1f1f23;
+}
+
 /* Badge Priority*/
 .bg-High {
     background-color: #dc3545;
