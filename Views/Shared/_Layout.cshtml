@@ -20,7 +20,7 @@
                         <!-- Logo -->
                         <div class="d-flex flex-column text-center">
                             <div class="nav-item" role="button">
-                                <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" width="40" height="40" class="flex-shrink-0"><i class="bi bi-speedometer2"></i></a>
+                                <a asp-controller="Home" asp-action="Index"><img src="~/images/bt.png" width="40" height="40" class="flex-shrink-0"><i class="bi bi-speedometer2"></i></a>
                             </div>
                         </div>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -48,7 +48,7 @@
                                 {
                                     <li class="nav-item">
                                     <h6 class="m-0 px-2">
-                                        <div class="nav-link text-dark align-items-center">BugTracker</div>
+                                            <div class="nav-link text-white align-items-center">BugTracker</div>
                                         </h6>
                                     </li>
                                 }
@@ -114,22 +114,26 @@
                                     }
 
                                 }
+                            } else
+                            {
+                                <div class="nav-item m-2 mb-0" style="width:40px;">
+                                </div>
                             }
-                </div>
+                        </div>
             </aside>
         </div>
             </header>
             
         <div class="d-flex flex-row h-100">
             <aside class="d-flex flex-column bg-dark3" style="width:50px;">
-                </aside>
-        <aside class="container-fluid p-0 ">
-            <!-- Body -->
-            <div class="container">
-                    <br />
-                @RenderBody()
-            </div>
-        </aside>
+            </aside>
+            <aside class="container-fluid p-0 ">
+                <!-- Body -->
+                <div class="container">
+                        <br />
+                    @RenderBody()
+                </div>
+            </aside>
         </div>
     </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
