@@ -87,8 +87,8 @@ namespace BugTracker.Controllers
 					Status = Data.Enum.TicketStatus.New,
 					Type = ticketVM.Type,
 					ProjectId = ticketVM.Id,
-					CreatedAt = DateTime.Now,
-					UpdatedAt = DateTime.Now,
+					CreatedAt = DateTime.Now.ToUniversalTime(),
+					UpdatedAt = DateTime.Now.ToUniversalTime(),
 					Author = author,
 					AssignedDev = assignDev
                 };
@@ -165,7 +165,7 @@ namespace BugTracker.Controllers
 					Type = ticketVM.Type,
 					ProjectId = ticketVM.ProjectId,
 					CreatedAt = userTicket.CreatedAt,
-					UpdatedAt = DateTime.Now,
+					UpdatedAt = DateTime.Now.ToUniversalTime(),
 				};
 
 				if (ticketVM.AssignedDevId != null)
