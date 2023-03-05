@@ -1,6 +1,5 @@
 ﻿using BugTracker.Data;
 using BugTracker.Extensions;
-using BugTracker.Migrations;
 using BugTracker.Models;
 using BugTracker.ViewModels;
 using Microsoft.AspNetCore.Identity;

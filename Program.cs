@@ -14,7 +14,8 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AppDBContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddIdentity<Member, IdentityRole>()
 	.AddEntityFrameworkStores<AppDBContext>();
@@ -27,8 +28,8 @@ var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-	//Seed.SeedUsersAndRolesAsync(app);
-	//Seed.SeedData(app);
+	Seed.SeedUsersAndRolesAsync(app);
+	Seed.SeedData(app);
 }
 
 

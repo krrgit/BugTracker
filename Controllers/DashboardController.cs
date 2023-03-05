@@ -88,7 +88,7 @@ namespace BugTracker.Controllers
             foreach (var project in _projecLinkVM)
             {
 
-                var tickets = await _context.Tickets.Include(t => t.AssignedDev).Where(t => t.ProjectId == project.Id && t.AssignedDev.Id == userId).ToListAsync();
+                var tickets = await _context.Tickets.Include(t => t.Author).Include(t => t.AssignedDev).Where(t => t.ProjectId == project.Id && t.AssignedDev.Id == userId).ToListAsync();
 
                 // Sort by Last Updated Date; latest = first
                 tickets.OrderBy(t => t.UpdatedAt);

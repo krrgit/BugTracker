@@ -1,5 +1,4 @@
 ﻿using BugTracker.Data;
-using BugTracker.Migrations;
 using BugTracker.Models;
 using BugTracker.ViewModels;
 using Microsoft.AspNetCore.Mvc;
