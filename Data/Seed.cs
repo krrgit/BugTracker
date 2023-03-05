@@ -1,10 +1,15 @@
 ﻿using BugTracker.Models;
 using Microsoft.AspNetCore.Identity;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
+using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace BugTracker.Data
 {
 	public class Seed
 	{
+
+
 		public static void SeedData(IApplicationBuilder applicationBuilder)
 		{
 			using (var serviceScpe = applicationBuilder.ApplicationServices.CreateScope())
@@ -171,6 +176,57 @@ namespace BugTracker.Data
 						};
 						await userManager.CreateAsync(newAppUser, "Coding@1234?");
 						await userManager.AddToRoleAsync(newAppUser, UserRoles.ProjectManager);
+					}
+				}
+			}
+		}
+
+		public static async void SeedRandomUsers(IApplicationBuilder applicationBuilder)
+		{
+			using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+			{
+				//Roles
+				var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+				if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+				if (!await roleManager.RoleExistsAsync(UserRoles.ProjectManager))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.ProjectManager));
+				if (!await roleManager.RoleExistsAsync(UserRoles.Developer))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.Developer));
+				if (!await roleManager.RoleExistsAsync(UserRoles.Submitter))
+					await roleManager.CreateAsync(new IdentityRole(UserRoles.Submitter));
+
+				string[] FirstNames = { "Maria", "Nushi", "Mohammed", "Jose", "Wei", "Ahmed", "Yan", "Ali", "John", "David", "Li", "Ana", "Ying", "Michael", "Juan", "Mary", "Robert" };
+				string[] LastNames = { "Wang", "Li", "Zhang", "Chen", "Liu", "Devi", "Yang", "Huang", "Singh", "Wu", "Kumar", "Xu", "Ali", "Zhao", "Nguyen", "Garcia", "Begum" };
+				string[] Roles = { "submitter", "submitter", "submitter", "submitter", "developer", "developer", "developer", "manager" };
+
+				//Users
+				var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<Member>>();
+				int users = 20;
+				var rand = new Random();
+				for (int i =0;i<users;++i)
+				{
+					string first = FirstNames[rand.Next(FirstNames.Length)];
+					string last = LastNames[rand.Next(LastNames.Length)];
+					string email = first + last + "@email.com";
+
+					var user = await userManager.FindByEmailAsync(email); 
+
+					if (user == null)
+					{
+						var newUser = new Member()
+						{
+							UserName = first + last,
+							FirstName = first,
+							LastName = last,
+							Email = email,
+							EmailConfirmed = true,
+						};
+
+						var role = i < 25 ? UserRoles.Submitter : (i < 47 ? UserRoles.Developer : UserRoles.ProjectManager);
+						await userManager.CreateAsync(newUser, "Coding@1111?");
+						await userManager.AddToRoleAsync(newUser, UserRoles.Submitter);
 					}
 				}
 			}

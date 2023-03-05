@@ -49,7 +49,6 @@ namespace BugTracker.Controllers
 
                 // Used to display the progress of a project
                 var progress = new int[5];
-                bool addToList = false;
 
                 // Get a list of tickets of this project assigned to this user
                 var userTickets = new List<Ticket>();
@@ -63,7 +62,6 @@ namespace BugTracker.Controllers
                         userTickets.Add(ticket);
 
                         ++progress[(int)ticket.Status];
-                        addToList = true;
                     }
                 }
 
@@ -96,7 +94,6 @@ namespace BugTracker.Controllers
 
                 // Used to display the progress of a project
                 var progress = new int[5];
-                bool addToList = false;
 
                 // Get a list of tickets of this project assigned to this user
                 var userTickets = new List<Ticket>();
@@ -113,7 +110,6 @@ namespace BugTracker.Controllers
                         }
 
                         ++progress[(int)ticket.Status];
-                        addToList = true;
                     }
                 }
 
