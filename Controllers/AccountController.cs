@@ -3,6 +3,7 @@ using BugTracker.Models;
 using BugTracker.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Controllers
 {
@@ -101,6 +102,50 @@ namespace BugTracker.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit()
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(i => i.Id == userId);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            EditAccountViewModel vm = new EditAccountViewModel() { 
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                EmailAddress = user.Email
+            };
+
+			return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditAccountViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(i => i.Id == userId);
+
+            if (user == null)
+            {
+                return View(vm);
+            }
+
+            user.FirstName = vm.FirstName;
+            user.LastName = vm.LastName;
+            user.Email = vm.EmailAddress;
+
+            _context.Update(user);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index","Dashboard");
         }
     }
 }

@@ -56,7 +56,10 @@
                             <ul class="navbar-nav flex-grow-1 justify-content-end align-items-center">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                                <li class="nav-item px-3"><div>Hello, @ViewData["FullName"]</div></li>
+                                                <li class="nav-item px-1"><div>Hello, @ViewData["FullName"]</div></li>
+                                                <li class="nav-item px-2">
+                                                    <a class="btn btn-outline-secondary" asp-controller="Account" asp-action="Edit">Edit Account</a>
+                                                </li>
                                                 <li class="nav-item">
                                                     <form asp-area="" asp-controller="Account" asp-action="Logout">
                                                         <button class="btn btn-outline-danger">Logout</button>
@@ -125,7 +128,7 @@
             </header>
             
         <div class="d-flex flex-row h-100">
-            <aside class="d-flex flex-column bg-dark3" style="width:50px;">
+            <aside class="d-flex flex-column bg-dark2" style="width:60px;">
             </aside>
             <aside class="container-fluid p-0 ">
                 <!-- Body -->

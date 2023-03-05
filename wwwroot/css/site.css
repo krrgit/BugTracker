@@ -16,19 +16,19 @@ html {
 body {
     margin-bottom: 60px;
     color: #fff;
-    background-color: #0e0e10;
+    background-color: #202124;
 }
 
 .bg-dark1 {
-    background-color: #0e0e10;
+    background-color: #202124;
 }
 
 .bg-dark2 {
-    background-color: #18181b;
+    background-color: #292a2d;
 }
 
 .bg-dark3 {
-    background-color: #1f1f23;
+    background-color: #323639;
 }
 
 .dash-border {
@@ -40,23 +40,23 @@ body {
 .nav-border {
     border-bottom-width: 2px;
     border-bottom-style: solid;
-    border-bottom-color: #000;
+    border-bottom-color: #1b1b1b;
 }
 
 .list-group-item {
     color: #fff;
-    background-color: #18181b;
+    background-color: #292a2d;
     border: 1px solid rgba(255,255,255,.125);
 }
 
 .list-group-item-action:focus, .list-group-item-action:hover {
     color: #fff;
-    background-color: #1f1f23;
+    background-color: #323639;
 }
 
 .list-group-item.disabled, .list-group-item.disabled {
     color: #fff;
-    background-color: #18181b;
+    background-color: #292a2d;
 }
 
 a {
@@ -69,13 +69,13 @@ a {
 .card,
 .modal-content{
     color: #ccc;
-    background-color: #18181b;
+    background-color: #292a2d;
     border: 1px solid #555;
 }
 
 select {
     color: #ccc;
-    background-color: #18181b;
+    background-color: #292a2d;
     border: 1px solid #555;
 }
 
@@ -111,12 +111,12 @@ select {
 
 .dropdown-menu {
     color: #ccc;
-    background-color: #1f1f23;
+    background-color: #323639;
 }
 
 .dropdown-item {
     color: #ccc;
-    background-color: #1f1f23;
+    background-color: #323639;
 }
 
 /* Badge Priority*/
