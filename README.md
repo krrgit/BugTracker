@@ -12,5 +12,5 @@ BugTracker is a website designed to help teams keep track of bugs, issues, and f
 * Ticket list: The Ticket List on the Dashboard displays the next tickets that need to be addressed, ordered by priority, deadline, or other criteria as set by the team. This makes it easy to identify the most urgent tasks and ensure they are addressed first.
 * User management: Project Tracker allows teams to manage users, including creating, editing, and deleting user accounts, as well as assigning user roles and permissions.
 
-## Getting Started
-To get started with Project Tracker, simply create an account and start adding tasks to your project. You can assign tickets to specific team members, set priorities and deadlines, and collaborate with your team using the built-in communication tools.
+## Demo
+To try the BugTracker demo, simply click on one of the demo buttons on the main page. You can assign tickets to specific team members, set priorities, and manage your project team with the built in tools.
