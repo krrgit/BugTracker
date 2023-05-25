@@ -1,5 +1,5 @@
 # BugTracker
-Site: https://btracker.herokuapp.com/
+Site: [https://btracker.herokuapp.com/](https://btracker.up.railway.app/)
 
 ## BugTracker
 BugTracker is a website designed to help teams keep track of bugs, issues, and feature requests for their projects. It uses a ticketing system to organize and prioritize tasks, making it easy to stay on top of everything that needs to be done.
