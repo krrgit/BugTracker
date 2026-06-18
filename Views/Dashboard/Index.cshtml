@@ -263,11 +263,14 @@
 
                     var percentage = 0;
 
-                    @if (Model.TicketLists.Count != 0)
-                    {
-                        <text>
-                        percentage = (100 * resolved/total).toFixed(0);
-                        </text>
+                    if (total > 0) {
+
+                        @if (Model.TicketLists.Count != 0)
+                        {
+                            <text>
+                            percentage = (100 * resolved/total).toFixed(0);
+                            </text>
+                        }
                     }
 
                     // Draw Percentage
